@@ -38,4 +38,10 @@ class MediaMetaDataController{
         return assembler.toResource(mediaMetaData);
     }
 
+    /**
+     * TODO: POST /mediametadatas IVRE-183
+     * When this call gets executed, we should verify the body of the request then
+     * save the object into the appropriate repository
+     */
+
 }
