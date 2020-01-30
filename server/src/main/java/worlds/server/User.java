@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 @Data
-class User {
+class User{
     @Id private String id;
 
     private String firstName;
