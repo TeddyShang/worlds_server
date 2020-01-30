@@ -35,5 +35,22 @@ class BookingController{
         .orElseThrow(() -> new UserNotFoundException(id));
         return assembler.toResource(booking);
     }
+    
+    /**
+     * TODO: GET /bookings/{id}/mediametadata IVRE-179
+     * When this call gets executed, we should return a list of mediametadata
+     * Follow the format of the GET calls above, and make sure to dependency inject an instance of the mediametadata repository
+     * You should make this list HATEOAS complient, so you will need to modify MediaMetaDataResourceAssembler.java and overload the toResource method
+     * See UserProfileResourceAssembler.java for help and the method getProfile in UserController.java as implementation will be very similar
+     * To test: You will need to modify LoadDatabase.java. Create several mediametadata objects and save several mediametadata objects, and store their IDs into a list
+     * Then set a bookings's mediaIds attribute to that list
+     * Navigating to the URL should return all of those mediametadata objects as well as a self-linked URL reference
+     */
+
+     /**
+      * TODO: POST /bookings IVRE-182
+      * When this call gets executed, we should validate the request body and save an
+      * instance of a booking object into the repository
+      */
 
 }
