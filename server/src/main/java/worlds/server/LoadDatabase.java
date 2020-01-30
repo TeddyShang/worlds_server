@@ -25,15 +25,20 @@ class LoadDatabase {
     MediaMetaData meta2 = new MediaMetaData("testid23","Mordor", "imgur.com");
     UserProfile profile1 = new UserProfile();
     UserProfile profile2 = new UserProfile();
+    UserProfile userProfile1 =  userProfileRepository.save(profile1);
+    UserProfile userProfile2 =  userProfileRepository.save(profile2);
+    user1.setProfileId(userProfile1.getId());
+    user2.setProfileId(userProfile2.getId());
+    userRepository.save(user1);
+    userRepository.save(user2);
+
     return args -> {
-      log.info("Preloading " + userRepository.save(user1));
-      log.info("Preloading " + userRepository.save(user2));
+
       log.info("Preloading " + bookingRepository.save(booking1));
       log.info("Preloading " + bookingRepository.save(booking2));
       log.info("Preloading " + mediaMetaDataRepository.save(meta1));
       log.info("Preloading " + mediaMetaDataRepository.save(meta2));
-      log.info("Preloading " + userProfileRepository.save(profile1));
-      log.info("Preloading " + userProfileRepository.save(profile2));
+
     };
   }
 }
