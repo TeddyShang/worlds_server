@@ -1,8 +1,13 @@
 package  worlds.server;
 
 import java.util.List;
-
+import java.util.ArrayList;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.Resource;
@@ -16,12 +21,14 @@ class UserController{
     private final UserResourceAssembler assembler;
     private final UserProfileRepository userProfileRepository;
     private final UserProfileResourceAssembler userProfileResourceAssembler;
+    private final BookingRepository bookingRepository;
 
-    UserController(UserRepository repository, UserResourceAssembler assembler, UserProfileRepository userProfileRepository, UserProfileResourceAssembler userProfileResourceAssembler) {
+    UserController(UserRepository repository, UserResourceAssembler assembler, UserProfileRepository userProfileRepository, UserProfileResourceAssembler userProfileResourceAssembler, BookingRepository bookingRepository) {
         this.repository = repository;
         this.assembler = assembler;
         this.userProfileRepository = userProfileRepository;
         this.userProfileResourceAssembler = userProfileResourceAssembler;
+        this.bookingRepository = bookingRepository;
     }
 
     @GetMapping(value = "/users", produces = "application/json; charset=UTF-8")
@@ -65,6 +72,27 @@ class UserController{
      * Navigating to the URL should return all of those booking objects as well as a self-linked URL reference
      */
 
+    /*
+    @GetMapping(value = "/users/{id}/bookings", produces  = "application/json; charset=UTF-8")
+    Resource<List<Booking>> getBookings(@PathVariable String id) {
+        User user = repository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException(id));
+        
+        //Need id from user.
+        String userProfileId = user.getProfileId();
+
+        List<Booking> listofbookings = new ArrayList<Booking>();
+
+        //go into booking repo and find profile associated
+        Booking bookings = bookingRepository.findById(userProfileId)
+        .orElseThrow(() -> new UserProfileNotFoundException(userProfileId));
+
+        listofbookings.add(bookings);
+
+        return BookingResourceAssembler.toResource(listofbookings, user);
+    }
+    */
+
      /**
       * TODO: POST /users IVRE-181
       * When this call gets executed, we should validate the request and store a new user
@@ -73,5 +101,20 @@ class UserController{
       * It may be beneficial to save the userProfile first in order to obtain the profileId
       * to set for the user before saving
       */
+    @PostMapping("/users")
+    ResponseEntity<?> newUser (@RequestBody User newUser) throws URISyntaxException {
 
+        User user = new User (newUser.getFirstName(), newUser.getLastName(), newUser.getUserType());
+
+        UserProfile userProfile = new UserProfile();
+        UserProfile temp = userProfileRepository.save(userProfile);
+        user.setProfileId(temp.getId());
+
+        Resource<User> resource = assembler.toResource(repository.save(user));
+        
+        return ResponseEntity
+        .created(new URI(resource.getId().expand().getHref()))
+        .body(resource);
+    }
+    
 }
