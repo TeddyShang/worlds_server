@@ -2,10 +2,11 @@ package worlds.server;
 
 import lombok.Data;
 import java.util.Date;
-
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
 @Data
+@Document(collection = "mediametadatas")
 class MediaMetaData {
     @Id private String id;
 
