@@ -1,5 +1,8 @@
 package worlds.server;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.CommandLineRunner;
@@ -31,13 +34,20 @@ class LoadDatabase {
     user2.setProfileId(userProfile2.getId());
     userRepository.save(user1);
     userRepository.save(user2);
+    mediaMetaDataRepository.save(meta1);
+    mediaMetaDataRepository.save(meta2);
+
+    //Give meta Ids to bookings.
+    String [] mediaIds = {meta1.getId()};
+    String [] mediaIds2 = {meta2.getId()};
+    booking1.setMediaIds(mediaIds);
+    booking2.setMediaIds(mediaIds2);
+
 
     return args -> {
 
       log.info("Preloading " + bookingRepository.save(booking1));
       log.info("Preloading " + bookingRepository.save(booking2));
-      log.info("Preloading " + mediaMetaDataRepository.save(meta1));
-      log.info("Preloading " + mediaMetaDataRepository.save(meta2));
 
     };
   }
