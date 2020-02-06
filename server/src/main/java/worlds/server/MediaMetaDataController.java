@@ -42,22 +42,14 @@ class MediaMetaDataController{
         return assembler.toResource(mediaMetaData);
     }
 
-    /**
-     * TODO: POST /mediametadatas IVRE-183
-     * When this call gets executed, we should verify the body of the request then
-     * save the object into the appropriate repository
-     */
-
     @PostMapping("/mediametadatas")
-    ResponseEntity<?> newMediaMetaData (@RequestBody MediaMetaData newMediaMetaData) throws URISyntaxException {
-        
+    ResponseEntity<?> newMediaMetaData(@RequestBody MediaMetaData newMediaMetaData) throws URISyntaxException {
+
         MediaMetaData mediametadata = new MediaMetaData(newMediaMetaData.getCreatorId(),
-                                                        newMediaMetaData.getRoomInformation(), newMediaMetaData.getUrlToMedia());
-        
-                                                        Resource<MediaMetaData> resource = assembler.toResource(repository.save(mediametadata));
-        return ResponseEntity
-        .created(new URI(resource.getId().expand().getHref()))
-        .body(resource);
+                newMediaMetaData.getRoomInformation(), newMediaMetaData.getUrlToMedia());
+
+        Resource<MediaMetaData> resource = assembler.toResource(repository.save(mediametadata));
+        return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
 }

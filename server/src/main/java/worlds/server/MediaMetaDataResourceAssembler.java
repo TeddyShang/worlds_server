@@ -1,9 +1,6 @@
 package worlds.server;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
-
-import java.util.List;
-
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.stereotype.Component;
