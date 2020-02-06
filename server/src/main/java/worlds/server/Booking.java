@@ -6,30 +6,48 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.springframework.data.annotation.Id;
 
+class BookingRoomInfo {
+
+    public String Name;
+    public int PhotosAmount;
+    public Boolean Video;
+
+    BookingRoomInfo(String roomName, int photoNum, Boolean video) {
+        this.Name = roomName;
+        this.PhotosAmount = photoNum;
+        this.Video = video;
+    }
+}
+
+
 @Data
 @Document(collection = "bookings")
-class Booking {
+public class Booking {
     @Id private String id;
 
     private Long dateCreated;
-    private Long dataCompleted;
+    private Long dateRequested;
+    private Long dateCompleted;
     private String realtorId;
     private String creatorId;
     private String locationCoordinates;
     private String address;
     private String[] mediaIds;
     private String[] tags;
-    private String[] details;
+    private BookingRoomInfo[] rooms;
     private BookingPrivacy bookingPrivacy;
     private BookingStatus bookingStatus;
 
     Booking() {}
 
-    Booking(String realtorId, String locationCoordinates, String address, String[] details) {
-        this.realtorId = realtorId;
-        this.locationCoordinates = locationCoordinates;
+    Booking(String realtorId, String address, String dateRequested, BookingRoomInfo[] rooms) {
+        this.realtorId = realtorId; // Currently being passed in their name
+        // this.locationCoordinates = locationCoordinates;
         this.address = address;
-        this.details = details;
+        this.rooms = rooms;
+        Date requested = new Date(dateRequested);
+        this.dateRequested = requested.getTime();
+
         this.bookingPrivacy = BookingPrivacy.OPEN;
         this.bookingStatus = BookingStatus.PENDING;
         Date date = new Date();
