@@ -1,6 +1,5 @@
 package  worlds.server;
 import java.util.List;
-import java.util.ArrayList;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -84,21 +83,14 @@ class BookingController{
     }
     */
     
-     /**
-      * TODO: POST /bookings IVRE-182
-      * When this call gets executed, we should validate the request body and save an
-      * instance of a booking object into the repository
-      */
-      @PostMapping("/bookings")
-        ResponseEntity<?> newBooking (@RequestBody Booking newBooking) throws URISyntaxException {
-            Booking booking = new Booking(newBooking.getRealtorId(), newBooking.getLocationCoordinates(),
-                                            newBooking.getAddress(), newBooking.getDetails());
-          
-            Resource<Booking> resource = assembler.toResource(repository.save(booking));
-            
-            return ResponseEntity
-            .created(new URI(resource.getId().expand().getHref()))
-            .body(resource);
-        }
+    @PostMapping("/bookings")
+    ResponseEntity<?> newBooking(@RequestBody Booking newBooking) throws URISyntaxException {
+        Booking booking = new Booking(newBooking.getRealtorId(), newBooking.getLocationCoordinates(),
+                newBooking.getAddress(), newBooking.getDetails());
+
+        Resource<Booking> resource = assembler.toResource(repository.save(booking));
+
+        return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+    }
 
 }
