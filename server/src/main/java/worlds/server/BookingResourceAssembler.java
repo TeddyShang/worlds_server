@@ -16,4 +16,6 @@ class BookingResourceAssembler implements ResourceAssembler<Booking, Resource<Bo
       linkTo(methodOn(BookingController.class).one(booking.getId())).withSelfRel(),
       linkTo(methodOn(BookingController.class).all()).withRel("bookings"));
   }
+
+  
 }
