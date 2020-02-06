@@ -63,17 +63,6 @@ class UserController{
         return userProfileResourceAssembler.toResource(userProfile, user);
     }
 
-    /**
-     * TODO: GET /users/{id}/bookings IVRE-177
-     * When this call gets executed, we should return a list of bookings
-     * Follow the format of the GET calls above, and make sure to dependency inject an instance of the bookings repository
-     * You should make this list HATEOAS complient, so you will need to modify BookingResourceAssembler.java and overload the toResource method
-     * See UserProfileResourceAssembler.java for help and the above method (getProfile) as implementation will be very similar
-     * To test: You will need to modify LoadDatabase.java. Create several booking objects and save several booking objects, and store their IDs into a list
-     * Then set a user's bookingsID attribute to that list
-     * Navigating to the URL should return all of those booking objects as well as a self-linked URL reference
-     */
-
     @GetMapping(value = "/users/{id}/bookings", produces  = "application/json; charset=UTF-8")
     Resources<Resource<Booking>> getBookings(@PathVariable String id) {
         User user = repository.findById(id)
