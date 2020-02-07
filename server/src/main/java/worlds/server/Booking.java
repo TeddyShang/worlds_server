@@ -6,27 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.springframework.data.annotation.Id;
 
-class BookingRoomInfo {
-
-    public String Name;
-    public int PhotosAmount;
-    public Boolean Video;
-
-    BookingRoomInfo(String roomName, int photoNum, Boolean video) {
-        this.Name = roomName;
-        this.PhotosAmount = photoNum;
-        this.Video = video;
-    }
-}
-
-
 @Data
 @Document(collection = "bookings")
 public class Booking {
     @Id private String id;
 
     private Long dateCreated;
-    private Long dateRequested;
+    private String dateRequested;
     private Long dateCompleted;
     private String realtorId;
     private String creatorId;
@@ -34,25 +20,28 @@ public class Booking {
     private String address;
     private String[] mediaIds;
     private String[] tags;
-    private BookingRoomInfo[] rooms;
+    private String[][] rooms;
     private BookingPrivacy bookingPrivacy;
     private BookingStatus bookingStatus;
 
     Booking() {}
 
-    Booking(String realtorId, String address, String dateRequested, BookingRoomInfo[] rooms) {
+//switch rooms to BookingRoomInfo type later
+//Issues with "Could not write JSON: Couldn't find PersistentEntity for type class [Lworlds.server.BookingRoomInfo;!;
+// nested exception is com.fasterxml.jackson.databind.JsonMappingException: Couldn't find PersistentEntity for type 
+//class [Lworlds.server.BookingRoomInfo;! (through reference chain: org.springframework.hateoas.Resource[\"content\"]->worlds.server.Booking[\"rooms\"])",
+    Booking(String realtorId, String address, String dateRequested, String locationCoordinates, String[][] rooms) {
         this.realtorId = realtorId; // Currently being passed in their name
-        // this.locationCoordinates = locationCoordinates;
+        this.locationCoordinates = locationCoordinates;
         this.address = address;
         this.rooms = rooms;
-        Date requested = new Date(dateRequested);
-        this.dateRequested = requested.getTime();
-
+        this.dateRequested = dateRequested;
         this.bookingPrivacy = BookingPrivacy.OPEN;
         this.bookingStatus = BookingStatus.PENDING;
         Date date = new Date();
         this.dateCreated = date.getTime();
+        this.mediaIds = new String[0];
+        this.tags = new String[0];
     }
-
 
 }

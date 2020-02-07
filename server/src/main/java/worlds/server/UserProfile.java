@@ -12,6 +12,10 @@ class UserProfile {
     private String aboutMe;
     private String urlToProfilePicture;
     private String professionalExperience;
-    UserProfile(){}
+    UserProfile(){
+        this.aboutMe = "";
+        this.urlToProfilePicture = "";
+        this.professionalExperience = "";
+    }
 
 }

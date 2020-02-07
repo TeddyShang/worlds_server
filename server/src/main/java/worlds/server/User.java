@@ -31,6 +31,10 @@ class User{
         this.userState = UserState.UNLOCKED;
         Date date = new Date();
         this.dateCreated = date.getTime();
+        this.profileId = "";
+        this.bookingIds = new String[0];
+        this.lastLoggedIn = date.getTime();
+
 
     }
 }
