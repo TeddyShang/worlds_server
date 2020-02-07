@@ -74,7 +74,7 @@ class BookingController{
     @PostMapping("/bookings")
     ResponseEntity<?> newBooking(@RequestBody Booking newBooking) throws URISyntaxException {
         Booking booking = new Booking(newBooking.getRealtorId(), newBooking.getLocationCoordinates(),
-                newBooking.getAddress(), newBooking.getDetails());
+                newBooking.getAddress(), newBooking.getRooms());
 
         Resource<Booking> resource = assembler.toResource(repository.save(booking));
 
