@@ -14,15 +14,5 @@ class MediaMetaDataResourceAssembler implements ResourceAssembler<MediaMetaData,
       linkTo(methodOn(MediaMetaDataController.class).one(mediaMetaData.getId())).withSelfRel(),
       linkTo(methodOn(MediaMetaDataController.class).all()).withRel("mediametadatas"));
   }
-
-  /*
-  //Link to the getMediaMetaData method
-  public Resource<List<MediaMetaData>> toResource(List<MediaMetaData> mediaMetaData, Booking booking) {
-    return new Resource<>(mediaMetaData,
-      linkTo(methodOn(MediaMetaDataController.class).one(booking.getId())).withSelfRel(),
-      linkTo(methodOn(BookingController.class).getMediaMetaData(booking.getId())).withRel("mediametadataAll"));
-
-  }
-  */
   
 }
