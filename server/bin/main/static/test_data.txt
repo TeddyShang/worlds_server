@@ -1,0 +1,401 @@
+{
+    "firstName": "Scarlett",
+    "lastName": "Johansson",
+    "userType": "REALTOR"
+}
+{
+    "firstName": "Scarlett",
+    "lastName": "Johansson",
+    "userStatus": "PENDING",
+    "userType": "REALTOR",
+    "userState": "UNLOCKED",
+    "profileId": "5e42cae94331f24e84a9a6f4",
+    "bookingIds": [],
+    "dateCreated": 1581435625318,
+    "lastLoggedIn": 1581435625318,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/5e42cae94331f24e84a9a6f5"
+        },
+        "users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+  {
+    "firstName": "Ricky",
+    "lastName": "Bobby",
+    "userType": "REALTOR"
+}
+{
+    "firstName": "Ricky",
+    "lastName": "Bobby",
+    "userStatus": "PENDING",
+    "userType": "REALTOR",
+    "userState": "UNLOCKED",
+    "profileId": "5e42cb254331f24e84a9a6f6",
+    "bookingIds": [],
+    "dateCreated": 1581435685977,
+    "lastLoggedIn": 1581435685977,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/5e42cb254331f24e84a9a6f7"
+        },
+        "users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+{
+    "firstName": "Ronaldo",
+    "lastName": "Messi",
+    "userType": "REALTOR"
+}
+{
+    "firstName": "Ronaldo",
+    "lastName": "Messi",
+    "userStatus": "PENDING",
+    "userType": "REALTOR",
+    "userState": "UNLOCKED",
+    "profileId": "5e42cb474331f24e84a9a6f8",
+    "bookingIds": [],
+    "dateCreated": 1581435719601,
+    "lastLoggedIn": 1581435719601,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/5e42cb474331f24e84a9a6f9"
+        },
+        "users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+{
+    "firstName": "Pablo",
+    "lastName": "Picasso",
+    "userType": "CREATOR"
+}
+{
+    "firstName": "Pablo",
+    "lastName": "Picasso",
+    "userStatus": "PENDING",
+    "userType": "CREATOR",
+    "userState": "UNLOCKED",
+    "profileId": "5e42cb8b4331f24e84a9a6fa",
+    "bookingIds": [],
+    "dateCreated": 1581435787219,
+    "lastLoggedIn": 1581435787219,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/5e42cb8b4331f24e84a9a6fb"
+        },
+        "users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+{
+    "firstName": "Leonardo",
+    "lastName": "DiCaprio",
+    "userType": "CREATOR"
+}
+{
+    "firstName": "Leonardo",
+    "lastName": "DiCaprio",
+    "userStatus": "PENDING",
+    "userType": "CREATOR",
+    "userState": "UNLOCKED",
+    "profileId": "5e42cba44331f24e84a9a6fc",
+    "bookingIds": [],
+    "dateCreated": 1581435812502,
+    "lastLoggedIn": 1581435812502,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/5e42cba44331f24e84a9a6fd"
+        },
+        "users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+{
+    "firstName": "Matt",
+    "lastName": "Ryan",
+    "userType": "STAFF"
+}
+{
+    "firstName": "Matt",
+    "lastName": "Ryan",
+    "userStatus": "PENDING",
+    "userType": "STAFF",
+    "userState": "UNLOCKED",
+    "profileId": "5e42cbc54331f24e84a9a6fe",
+    "bookingIds": [],
+    "dateCreated": 1581435845163,
+    "lastLoggedIn": 1581435845163,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/5e42cbc54331f24e84a9a6ff"
+        },
+        "users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+  {
+    "realtorId": "5e42cae94331f24e84a9a6f5",
+    "address": "1600 Pennsylvania Ave, Baltimore, MD, USA",
+    "dateRequested": "2/12/2020",
+    "locationCoordinates": "(1142431.4373195986,-4808227.662235494,4018407.8984806594)",
+    "rooms": [
+        [
+            "Oval Office",
+            "3",
+            "false"
+        ],
+        [
+            "War Room",
+            "3",
+            "true"
+        ],
+        [
+            "Secret Bunker",
+            "1",
+            "false"
+        ]
+    ]
+}
+{
+    "dateCreated": 1581436538076,
+    "dateRequested": "2/12/2020",
+    "dateCompleted": null,
+    "realtorId": "5e42cae94331f24e84a9a6f5",
+    "creatorId": null,
+    "locationCoordinates": "(1142431.4373195986,-4808227.662235494,4018407.8984806594)",
+    "address": "1600 Pennsylvania Ave, Baltimore, MD, USA",
+    "mediaIds": [],
+    "tags": [],
+    "rooms": [
+        [
+            "Oval Office",
+            "3",
+            "false"
+        ],
+        [
+            "War Room",
+            "3",
+            "true"
+        ],
+        [
+            "Secret Bunker",
+            "1",
+            "false"
+        ]
+    ],
+    "bookingPrivacy": "OPEN",
+    "bookingStatus": "PENDING",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/bookings/5e42ce7a4331f24e84a9a700"
+        },
+        "bookings": {
+            "href": "http://localhost:8080/bookings"
+        }
+    }
+}
+  {
+    "realtorId": "5e42cae94331f24e84a9a6f5",
+    "address": "Empire State Building, Manhattan, New York, NY, USA",
+    "dateRequested": "2/12/2020",
+    "locationCoordinates": "(1334938.5881260387, -4651089.165433851, 4141298.7537432066)",
+    "rooms": [
+        [
+            "Sky Deck",
+            "3",
+            "false"
+        ],
+        [
+            "Ground Floor",
+            "3",
+            "true"
+        ],
+        [
+            "Panic Room",
+            "1",
+            "false"
+        ]
+    ]
+}
+{
+    "dateCreated": 1581436715337,
+    "dateRequested": "2/12/2020",
+    "dateCompleted": null,
+    "realtorId": "5e42cae94331f24e84a9a6f5",
+    "creatorId": null,
+    "locationCoordinates": "(1334938.5881260387, -4651089.165433851, 4141298.7537432066)",
+    "address": "Empire State Building, Manhattan, New York, NY, USA",
+    "mediaIds": [],
+    "tags": [],
+    "rooms": [
+        [
+            "Sky Deck",
+            "3",
+            "false"
+        ],
+        [
+            "Ground Floor",
+            "3",
+            "true"
+        ],
+        [
+            "Panic Room",
+            "1",
+            "false"
+        ]
+    ],
+    "bookingPrivacy": "OPEN",
+    "bookingStatus": "PENDING",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/bookings/5e42cf2b4331f24e84a9a701"
+        },
+        "bookings": {
+            "href": "http://localhost:8080/bookings"
+        }
+    }
+}
+{
+	"realtorId": "5e42cb254331f24e84a9a6f7",
+	"address": "Daytona 500 Club, Daytona Beach, FL, USA",
+	"dateRequested": "2/12/2020",
+	"locationCoordinates": "(864878.4939355286,-5505244.359097497,3092000.740825258)",
+	"rooms": [["Champions Club","3","false"], ["Checkered Flag","3","true"],["Winners Circle","1","false"]]
+}
+{
+    "dateCreated": 1581436870440,
+    "dateRequested": "2/12/2020",
+    "dateCompleted": null,
+    "realtorId": "5e42cb254331f24e84a9a6f7",
+    "creatorId": null,
+    "locationCoordinates": "(864878.4939355286,-5505244.359097497,3092000.740825258)",
+    "address": "Daytona 500 Club, Daytona Beach, FL, USA",
+    "mediaIds": [],
+    "tags": [],
+    "rooms": [
+      [
+        "Champions Club",
+        "3",
+        "false"
+      ],
+      [
+        "Checkered Flag",
+        "3",
+        "true"
+      ],
+      [
+        "Winners Circle",
+        "1",
+        "false"
+      ]
+    ],
+    "bookingPrivacy": "OPEN",
+    "bookingStatus": "PENDING",
+    "_links": {
+      "self": {
+        "href": "http://localhost:8080/bookings/5e42cfc64331f24e84a9a702"
+      },
+      "bookings": {
+        "href": "http://localhost:8080/bookings"
+      }
+    }
+  }
+  {
+	"realtorId": "5e42cb254331f24e84a9a6f7",
+	"address": "Venice Beach, Los Angeles, CA, USA",
+	"dateRequested": "2/12/2020",
+	"locationCoordinates": "(-2524019.930915548,-4653704.697073177,3545177.522316003)",
+	"rooms": [["Tiki Bar","3","false"], ["Muscle Beach","3","true"],["Pier","1","false"]]
+}
+{
+    "dateCreated": 1581436964683,
+    "dateRequested": "2/12/2020",
+    "dateCompleted": null,
+    "realtorId": "5e42cb254331f24e84a9a6f7",
+    "creatorId": null,
+    "locationCoordinates": "(-2524019.930915548,-4653704.697073177,3545177.522316003)",
+    "address": "Venice Beach, Los Angeles, CA, USA",
+    "mediaIds": [],
+    "tags": [],
+    "rooms": [
+      [
+        "Tiki Bar",
+        "3",
+        "false"
+      ],
+      [
+        "Muscle Beach",
+        "3",
+        "true"
+      ],
+      [
+        "Pier",
+        "1",
+        "false"
+      ]
+    ],
+    "bookingPrivacy": "OPEN",
+    "bookingStatus": "PENDING",
+    "_links": {
+      "self": {
+        "href": "http://localhost:8080/bookings/5e42d0244331f24e84a9a703"
+      },
+      "bookings": {
+        "href": "http://localhost:8080/bookings"
+      }
+    }
+  }
+  {
+	"realtorId": "5e42cb474331f24e84a9a6f9",
+	"address": "Mercedes-Benz Stadium, Atlanta, GA, USA",
+	"dateRequested": "2/12/2020",
+	"locationCoordinates": "(517927.97066703276, -5283055.055160589,3523921.15190686)",
+	"rooms": [["Falcons Box","3","false"], ["United Seats","3","true"],["Freeman Room","1","false"]]
+}
+{
+    "dateCreated": 1581437100120,
+    "dateRequested": "2/12/2020",
+    "dateCompleted": null,
+    "realtorId": "5e42cb474331f24e84a9a6f9",
+    "creatorId": null,
+    "locationCoordinates": "(517927.97066703276, -5283055.055160589,3523921.15190686)",
+    "address": "Mercedes-Benz Stadium, Atlanta, GA, USA",
+    "mediaIds": [],
+    "tags": [],
+    "rooms": [
+      [
+        "Falcons Box",
+        "3",
+        "false"
+      ],
+      [
+        "United Seats",
+        "3",
+        "true"
+      ],
+      [
+        "Freeman Room",
+        "1",
+        "false"
+      ]
+    ],
+    "bookingPrivacy": "OPEN",
+    "bookingStatus": "PENDING",
+    "_links": {
+      "self": {
+        "href": "http://localhost:8080/bookings/5e42d0ac4331f24e84a9a704"
+      },
+      "bookings": {
+        "href": "http://localhost:8080/bookings"
+      }
+    }
+  }
