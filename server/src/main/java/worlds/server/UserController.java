@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.Resource;
@@ -40,6 +41,7 @@ class UserController {
      * 
      * @return a list of all users
      */
+    @ResponseBody
     @GetMapping(value = "/users", produces = "application/json; charset=UTF-8")
     Resources<Resource<User>> all() {
         List<Resource<User>> users = userRepository.findAll().stream().map(userResourceAssembler::toResource)
@@ -55,6 +57,7 @@ class UserController {
      * @return that specific user or UserNotFoundException if that id does not exist
      *         in the DB
      */
+    @ResponseBody
     @GetMapping(value = "/users/{id}", produces = "application/json; charset=UTF-8")
     Resource<User> one(@PathVariable String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
