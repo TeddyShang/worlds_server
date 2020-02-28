@@ -52,4 +52,18 @@ class MediaMetaDataController{
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
+    @PutMapping("/mediametadatas/{id}")
+    ResponseEntity<MediaMetaData> updateMediaMetadata(@Valid @RequestBody MediaMetaData newMediaMetaData,
+    @PathVariable final String id) throws ResourceNotFoundException {
+        MediaMetaData current = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("media does not exist with id ::" + id));
+
+        current.setCreatorId(newMediaMetaData.getCreatorId());
+        current.setRoomInformation(newMediaMetaData.getRoomInformation());
+        current.setUrlToMedia(newMediaMetaData.getUrlToMedia());
+        current.setDateUploaded(newMediaMetaData.getDateUploaded());
+        final MediaMetaData updatedMetaData = repository.save(current);
+        return ResponseEntity.ok(updatedMetaData);
+    }
+
 }
