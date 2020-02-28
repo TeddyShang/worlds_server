@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,11 +46,18 @@ class UserController {
      */
     @ResponseBody
     @GetMapping(value = "/users", produces = "application/json; charset=UTF-8")
-    Resources<Resource<User>> all() {
-        List<Resource<User>> users = userRepository.findAll().stream().map(userResourceAssembler::toResource)
-                .collect(Collectors.toList());
+    Resources<Resource<UserProtected>> all() {
+        List<User> userResults = userRepository.findAll();
+        List<UserProtected> protectedResults = new ArrayList<>();
+        for (User user : userResults) {
+            UserProtected userProtected = new UserProtected();
+            userProtected.convertFrom(user);
+            protectedResults.add(userProtected);
+        }
 
-        return new Resources<>(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
+        List<Resource<UserProtected>> usersProtected = protectedResults.stream().map(userResourceAssembler::toResource)
+                .collect(Collectors.toList());
+        return new Resources<>(usersProtected, linkTo(methodOn(UserController.class).all()).withSelfRel());
     }
 
     /**
@@ -59,9 +69,11 @@ class UserController {
      */
     @ResponseBody
     @GetMapping(value = "/users/{id}", produces = "application/json; charset=UTF-8")
-    Resource<User> one(@PathVariable String id) {
+    Resource<UserProtected> one(@PathVariable String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        return userResourceAssembler.toResource(user);
+        UserProtected userProtected = new UserProtected();
+        userProtected.convertFrom(user);
+        return userResourceAssembler.toResource(userProtected);
     }
 
     /**
@@ -127,6 +139,7 @@ class UserController {
     }
 
     /**
+     * TODO: new control flow, constructors
      * POST method
      * 
      * @param newUser user to be created
@@ -138,23 +151,105 @@ class UserController {
 
         String firstName = newUser.getFirstName();
         String lastName = newUser.getLastName();
-        //If the supplied UserType is not a designated Enum, the code will throw a 400 BadRequest later
+
+        // If the supplied UserType is not a designated Enum, the code will throw a 400
         UserType userType = newUser.getUserType();
 
+        //fake hashed password, should be plaintext but we use this field name for now
+        String password = newUser.getHashedPassword();
+
+        String email = newUser.getEmail();
+
+        //if the signup is for a realtor, they should have supplied a relator Id
+        String realtorId = "";
+        if (userType == UserType.REALTOR) {
+            realtorId = newUser.getRealtorId();
+        }
+
+        //TODO verification checks on the realtor id here
+
+
+        //otherwise staff/content creator checks following here
+
         // If any argument is null, we do not create the user object
-        if (firstName == null || lastName == null || userType == null) {
+        if (firstName == null || lastName == null || userType == null || password == null || email == null) {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
         }
 
-        User user = new User(firstName, lastName, userType);
+        //TODO next check to see if the email is valid AND not already in the database
+        User checkSameEmail = userRepository.findByEmail(email);
+        if (checkSameEmail != null) {
+            return ResponseEntity.badRequest().body("Bad Request: Email already used");
+        }
 
+
+        //TODO next check to see if the password meets requirements, temporary char check right now
+        if (password.length() < 8) {
+            return ResponseEntity.badRequest().body("Bad Request: Password too weak");
+        }
+
+
+
+        //finally create the user
+        User user = new User(firstName, lastName, userType, password, email, realtorId);
+
+        //create a profile for that user and save it
         UserProfile userProfile = new UserProfile();
         UserProfile savedUserProfile = userProfileRepository.save(userProfile);
         user.setProfileId(savedUserProfile.getId());
 
-        Resource<User> resource = userResourceAssembler.toResource(userRepository.save(user));
+        //save the user
+        User savedUser = userRepository.save(user);
 
+        //convert the user to a UserProtected, and return the UserProtected object
+        UserProtected userProtected = new UserProtected();
+        userProtected.convertFrom(savedUser);
+        
+        Resource<UserProtected> resource = userResourceAssembler.toResource(userProtected);
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
+    /**
+     * TODO: Exception Checking
+     * @param login Login object, username and unhashed password of user
+     * @return ProtectedUser as Json if accepted, Unauthorized otherwise
+     * @throws URISyntaxException
+     */
+    @PostMapping("/login")
+    ResponseEntity<?> login(@RequestBody Login login) throws URISyntaxException{
+        Integer MAX_ATTEMPTS = 5;
+        String email = login.getEmail();
+        String password = login.getPassword();
+
+        if(email == null || password == null) {
+            return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
+        }
+        User user = userRepository.findByEmail(email);
+
+        if(user == null) {
+            return new ResponseEntity<String>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
+        }
+
+        if (user.getFailedLogInAttempts() >= MAX_ATTEMPTS) {
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
+        String hashedPassword = user.getHashedPassword();
+        Boolean passwordCorrect = BCrypt.checkpw(password, hashedPassword);
+        if (!passwordCorrect) {
+            Integer failedLogInAttempts = user.getFailedLogInAttempts();
+            failedLogInAttempts++;
+            user.setFailedLogInAttempts(failedLogInAttempts);
+            userRepository.save(user);
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        } else {
+            user.setFailedLogInAttempts(0);
+            userRepository.save(user);
+            UserProtected userProtected = new UserProtected();
+            userProtected.convertFrom(user);
+            Resource<UserProtected> resource = userResourceAssembler.toResource(userProtected);
+            return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+        }
+
+    }
 }

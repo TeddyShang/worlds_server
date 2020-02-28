@@ -3,27 +3,31 @@ package worlds.server;
 import lombok.Data;
 import java.util.Date;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.data.annotation.Id;
 
 @Data
 @Document(collection = "users")
-class User{
-    @Id private String id;
+public class User{
+    @Id public String id;
 
-    private String firstName;
-    private String lastName;
-    private UserStatus userStatus;
-    private UserType userType;
-    private UserState userState;
-    private String profileId;
-    private String[] bookingIds;
-    private Long dateCreated;
-    private Long lastLoggedIn;
+    public String firstName;
+    public String lastName;
+    public UserStatus userStatus;
+    public UserType userType;
+    public UserState userState;
+    public String profileId;
+    public String[] bookingIds;
+    public Long dateCreated;
+    public Long lastLoggedIn;
+    public String realtorId;
+    public String email;
+    private String hashedPassword;
+    private Integer failedLogInAttempts;
 
     User(){}
     
-    User(String firstName, String lastName, UserType userType) {
+    User(String firstName, String lastName, UserType userType, String password, String email, String realtorId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userType = userType;
@@ -34,7 +38,10 @@ class User{
         this.profileId = "";
         this.bookingIds = new String[0];
         this.lastLoggedIn = date.getTime();
-
-
+        this.email = email;
+        this.realtorId = realtorId;
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.hashedPassword = hashedPassword;
+        this.failedLogInAttempts = 0;
     }
 }

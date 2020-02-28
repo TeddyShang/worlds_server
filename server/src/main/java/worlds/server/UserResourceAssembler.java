@@ -7,13 +7,13 @@ import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.stereotype.Component;
 
 @Component
-class UserResourceAssembler implements ResourceAssembler<User, Resource<User>> {
+class UserResourceAssembler implements ResourceAssembler<UserProtected, Resource<UserProtected>> {
 
   @Override
-  public Resource<User> toResource(User user) {
+  public Resource<UserProtected> toResource(UserProtected userProtected) {
 
-    return new Resource<>(user,
-      linkTo(methodOn(UserController.class).one(user.getId())).withSelfRel(),
+    return new Resource<>(userProtected,
+      linkTo(methodOn(UserController.class).one(userProtected.getId())).withSelfRel(),
       linkTo(methodOn(UserController.class).all()).withRel("users"));
   }
 }
