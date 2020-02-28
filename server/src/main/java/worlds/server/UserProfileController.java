@@ -34,8 +34,23 @@ class UserProfileController{
     @GetMapping(value = "/userprofiles/{id}", produces = "application/json; charset=UTF-8")
     Resource<UserProfile> one(@PathVariable String id) {
         UserProfile userProfile = repository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException(id));
+        .orElseThrow(() -> new UserProfileNotFoundException(id));
         return assembler.toResource(userProfile);
     }
 
+    @PutMapping("/userprofiles/{id}")
+    ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfileInfo,
+    @PathVariable final String id) throws UserProfileNotFoundException {
+        UserProfile userProfile = repository.findById(id)
+        .orElseThrow(() -> new UserProfileNotFoundException("User profile does not exist with id ::" + id));
+
+        userProfile.setAboutMe(userProfileInfo.getAboutMe());
+        userProfile.setUrlToProfilePicture(userProfileInfo.getUrlToProfilePicture);
+        userProfile.setProfessionalExperience(userProfileInfo.getProfessionalExperience);
+
+        final UserProfile updatedUserProfile= repository.save(userProfile);
+        return ResponseEntity.ok(updatedUserProfile);
+    }
+
 }
+
