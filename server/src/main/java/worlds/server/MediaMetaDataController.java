@@ -54,9 +54,9 @@ class MediaMetaDataController{
 
     @PutMapping("/mediametadatas/{id}")
     ResponseEntity<MediaMetaData> updateMediaMetadata(@Valid @RequestBody MediaMetaData newMediaMetaData,
-    @PathVariable final String id) throws ResourceNotFoundException {
+    @PathVariable final String id) throws MediaMetaDataNotFoundException {
         MediaMetaData current = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("media does not exist with id ::" + id));
+        .orElseThrow(() -> new MediaMetaDataNotFoundException("media does not exist with id ::" + id));
 
         current.setCreatorId(newMediaMetaData.getCreatorId());
         current.setRoomInformation(newMediaMetaData.getRoomInformation());
