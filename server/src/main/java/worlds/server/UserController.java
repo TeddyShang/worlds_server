@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
@@ -275,38 +271,4 @@ class UserController {
         }
 
     }
-
-    // @PutMapping("/users/{id}")
-    // ResponseEntity<User> updateUser(@Valid @RequestBody User userInfo,
-    // @PathVariable final String id) throws UserNotFoundException {
-    //     User user = userRepository.findById(id)
-    //     .orElseThrow(() -> new UserNotFoundException("User does not exist with id ::" + id));
-
-    // public Long dateCreated;
-    // public Long lastLoggedIn;
-    // public String realtorId;
-    // public String email;
-    // private String hashedPassword;
-    // private Integer failedLogInAttempts;
-
-
-    //     user.setFirstName(userInfo.getFirstName());
-    //     user.setLastName(userInfo.getLastName());
-    //     user.setUserStatus(userInfo.getUserStatus());
-    //     user.setUserType(userInfo.getUserType());
-    //     user.setUserState(userInfo.getUserState());
-    //     user.setProfileId(userInfo.getProfileId());
-    //     user.setBookingIds(userInfo.getBookingIds());
-    //     // user.setDateCreated(userInfo.getDateCreated());
-    //     // date is not updated as it denotes the date of creation
-    //     // user.setLastLoggedIn(userInfo.getLastLoggedIn());
-    //     // similar reasons for date created. 
-
-
-    //     userProfile.setUrlToProfilePicture(userProfileInfo.getUrlToProfilePicture);
-    //     userProfile.setProfessionalExperience(userProfileInfo.getProfessionalExperience);
-
-    //     final UserProfile updatedUserProfile= repository.save(userProfile);
-    //     return ResponseEntity.ok(updatedUserProfile);
-    // }
 }
