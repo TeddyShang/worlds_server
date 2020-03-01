@@ -2,6 +2,7 @@ package worlds.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -155,43 +156,59 @@ class UserController {
         // If the supplied UserType is not a designated Enum, the code will throw a 400
         UserType userType = newUser.getUserType();
 
-        //fake hashed password, should be plaintext but we use this field name for now
+        //Not a hashed password yet, just a field name, POST sends their plaintext password
         String password = newUser.getHashedPassword();
 
         String email = newUser.getEmail();
-
-        //if the signup is for a realtor, they should have supplied a relator Id
-        String realtorId = "";
-        if (userType == UserType.REALTOR) {
-            realtorId = newUser.getRealtorId();
-        }
-
-        //TODO verification checks on the realtor id here
-
-
-        //otherwise staff/content creator checks following here
 
         // If any argument is null, we do not create the user object
         if (firstName == null || lastName == null || userType == null || password == null || email == null) {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
         }
 
-        //TODO next check to see if the email is valid AND not already in the database
+        //TODO next check to see if the email is valid (REGEX)
         User checkSameEmail = userRepository.findByEmail(email);
         if (checkSameEmail != null) {
             return ResponseEntity.badRequest().body("Bad Request: Email already used");
         }
 
 
-        //TODO next check to see if the password meets requirements, temporary char check right now
+        //TODO next check to see if the password meets requirements, temporary char check right now (REGEX)
         if (password.length() < 8) {
             return ResponseEntity.badRequest().body("Bad Request: Password too weak");
         }
 
+        // if the signup is for a realtor, they should have supplied a relator Id
+        String realtorId = "";
 
+        //chance for automatic approval
+        Boolean autoApproved = false;
+        if (userType == UserType.REALTOR) {
+            realtorId = newUser.getRealtorId();
 
+            if (realtorId == null) {
+                return ResponseEntity.badRequest().body("Bad Request: Not a valid Realtor Id");
+            }
+
+            // verify realtor Id
+            try {
+                RealtorVerification realtorVerification = new RealtorVerification();
+                Boolean isValidRealtor = realtorVerification.verifyUser(firstName, lastName, realtorId);
+                autoApproved = isValidRealtor;
+
+            } catch (IOException exception) {
+                // unable to verify user but we carry on anyways, status is default to Pending
+            }
+
+        }
+        
         //finally create the user
         User user = new User(firstName, lastName, userType, password, email, realtorId);
+
+        //auto approval process for realtors
+        if(autoApproved) {
+            user.userStatus = UserStatus.APPROVED;
+        }
 
         //create a profile for that user and save it
         UserProfile userProfile = new UserProfile();
@@ -231,6 +248,8 @@ class UserController {
         }
 
         if (user.getFailedLogInAttempts() >= MAX_ATTEMPTS) {
+            user.setUserState(UserState.LOCKED);
+            userRepository.save(user);
             return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
