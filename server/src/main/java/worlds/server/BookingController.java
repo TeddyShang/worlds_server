@@ -112,16 +112,18 @@ class BookingController {
         String address = newBooking.getAddress();
         String dateRequested = newBooking.getDateRequested();
         String[][] rooms = newBooking.getRooms();
+        String[] tags = newBooking.getTags();
         String locationCoordinates = newBooking.getLocationCoordinates();
 
         //first check if any of the arguments are null/empty
         if (realtorId == null || address == null || dateRequested == null || locationCoordinates == null
-                || rooms == null || rooms.length == 0) {
+                || rooms == null || rooms.length == 0 || tags == null) {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
 
         }
+
         //create the booking object and store it
-        Booking booking = new Booking(realtorId, address, dateRequested, locationCoordinates, rooms);
+        Booking booking = new Booking(realtorId, address, dateRequested, locationCoordinates, rooms, tags);
         Booking savedBooking = bookingRepository.save(booking);
         
         //get the realtor and insert this booking into their list of ids

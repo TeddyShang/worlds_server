@@ -30,7 +30,7 @@ public class Booking {
 //Issues with "Could not write JSON: Couldn't find PersistentEntity for type class [Lworlds.server.BookingRoomInfo;!;
 // nested exception is com.fasterxml.jackson.databind.JsonMappingException: Couldn't find PersistentEntity for type 
 //class [Lworlds.server.BookingRoomInfo;! (through reference chain: org.springframework.hateoas.Resource[\"content\"]->worlds.server.Booking[\"rooms\"])",
-    Booking(String realtorId, String address, String dateRequested, String locationCoordinates, String[][] rooms) {
+    Booking(String realtorId, String address, String dateRequested, String locationCoordinates, String[][] rooms, String[] tags) {
         this.realtorId = realtorId; // Currently being passed in their name
         this.locationCoordinates = locationCoordinates;
         this.address = address;
@@ -41,7 +41,7 @@ public class Booking {
         Date date = new Date();
         this.dateCreated = date.getTime();
         this.mediaIds = new String[0];
-        this.tags = new String[0];
+        this.tags = tags;
     }
 
 }
