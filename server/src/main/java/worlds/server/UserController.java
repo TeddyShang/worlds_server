@@ -5,6 +5,7 @@ import java.util.List;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.regex.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -166,10 +167,16 @@ class UserController {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
         }
 
-        //TODO next check to see if the email is valid (REGEX)
+        //Next check to see if the email is valid and not already in the database
         User checkSameEmail = userRepository.findByEmail(email);
         if (checkSameEmail != null) {
             return ResponseEntity.badRequest().body("Bad Request: Email already used");
+        }
+        Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailPattern.matcher(email);
+        Boolean validEmail = matcher.find();
+        if (!validEmail) {
+            return ResponseEntity.badRequest().body("Bad Request: Invalid email");
         }
 
 
