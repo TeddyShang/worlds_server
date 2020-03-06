@@ -12,14 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
@@ -301,6 +307,18 @@ class UserController {
             Resource<UserProtected> resource = userResourceAssembler.toResource(userProtected);
             return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
         }
+    }
+
+    @PutMapping("/userprofiles/{id}")
+    ResponseEntity<User> updateUser(@Valid @RequestBody User userInfo,
+    @PathVariable final String id) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("User does not exist with id ::" + id));
+
+        BeanUtils.copyProperties(userInfo,user);
+
+        final User updatedUser= userRepository.save(user);
+        return ResponseEntity.ok(updatedUser);
     }
 
     
