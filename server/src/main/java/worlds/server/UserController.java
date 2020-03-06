@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,9 +53,14 @@ class UserController {
         List<User> userResults = userRepository.findAll();
         List<UserProtected> protectedResults = new ArrayList<>();
         for (User user : userResults) {
-            UserProtected userProtected = new UserProtected();
-            userProtected.convertFrom(user);
-            protectedResults.add(userProtected);
+            // Only map to list if user is not deleted
+            if (user.getDeletedUser() == false) {
+                UserProtected userProtected = new UserProtected();
+                userProtected.convertFrom(user);
+                protectedResults.add(userProtected);
+            } else {
+                return null;
+            }
         }
 
         List<Resource<UserProtected>> usersProtected = protectedResults.stream().map(userResourceAssembler::toResource)
@@ -73,9 +79,14 @@ class UserController {
     @GetMapping(value = "/users/{id}", produces = "application/json; charset=UTF-8")
     Resource<UserProtected> one(@PathVariable String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        UserProtected userProtected = new UserProtected();
-        userProtected.convertFrom(user);
-        return userResourceAssembler.toResource(userProtected);
+
+        if (user.getDeletedUser() == false) {
+            UserProtected userProtected = new UserProtected();
+            userProtected.convertFrom(user);
+            return userResourceAssembler.toResource(userProtected);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -94,10 +105,14 @@ class UserController {
 
         String userProfileId = user.getProfileId();
 
-        UserProfile userProfile = userProfileRepository.findById(userProfileId)
-                .orElseThrow(() -> new UserProfileNotFoundException(userProfileId));
+        if (user.getDeletedUser() == false ) {
+            UserProfile userProfile = userProfileRepository.findById(userProfileId)
+                    .orElseThrow(() -> new UserProfileNotFoundException(userProfileId));
 
-        return userProfileResourceAssembler.toResource(userProfile, user);
+            return userProfileResourceAssembler.toResource(userProfile, user);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -116,28 +131,33 @@ class UserController {
         String[] bookingIds = user.getBookingIds();
         List<Booking> bookingsResults = new ArrayList<Booking>();
 
-        // if the user has no bookings or is empty, we should return an empty list
-        if (bookingIds == null || bookingIds.length == 0) {
-            List<Resource<Booking>> finalBookings = bookingsResults.stream().map(bookingResourceAssembler::toResource)
+        if (user.getDeletedUser() == false ) {
+            // if the user has no bookings or is empty, we should return an empty list
+            if (bookingIds == null || bookingIds.length == 0) {
+                List<Resource<Booking>> finalBookings = bookingsResults.stream().map(bookingResourceAssembler::toResource)
                     .collect(Collectors.toList());
 
-            return new Resources<>(finalBookings,
-                    linkTo(methodOn(UserController.class).getBookings(user.getId())).withSelfRel());
+                return new Resources<>(finalBookings,
+                linkTo(methodOn(UserController.class).getBookings(user.getId())).withSelfRel());
 
-        }
+            }
 
-        // otherwise find all the bookings and add them to the results list
-        for (String bookingId : bookingIds) {
-            Booking booking = bookingRepository.findById(bookingId)
+            // otherwise find all the bookings and add them to the results list
+            for (String bookingId : bookingIds) {
+                Booking booking = bookingRepository.findById(bookingId)
                     .orElseThrow(() -> new BookingNotFoundException(bookingId));
-            bookingsResults.add(booking);
-        }
+                bookingsResults.add(booking);
+            }
 
-        List<Resource<Booking>> finalBookings = bookingsResults.stream().map(bookingResourceAssembler::toResource)
+            List<Resource<Booking>> finalBookings = bookingsResults.stream().map(bookingResourceAssembler::toResource)
                 .collect(Collectors.toList());
 
-        return new Resources<>(finalBookings,
+            return new Resources<>(finalBookings,
                 linkTo(methodOn(UserController.class).getBookings(user.getId())).withSelfRel());
+
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -245,6 +265,7 @@ class UserController {
         String email = login.getEmail();
         String password = login.getPassword();
 
+
         if(email == null || password == null) {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
         }
@@ -252,6 +273,10 @@ class UserController {
 
         if(user == null) {
             return new ResponseEntity<String>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
+        }
+        
+        if (user.getUserStatus() == UserStatus.DELETED ) {
+            return new ResponseEntity<String>("Account has been deleted. Please contact admin.", HttpStatus.NO_CONTENT);
         }
 
         if (user.getFailedLogInAttempts() >= MAX_ATTEMPTS) {
@@ -276,6 +301,18 @@ class UserController {
             Resource<UserProtected> resource = userResourceAssembler.toResource(userProtected);
             return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
         }
+    }
+
+    
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteBooking(@PathVariable String id) {
+
+        User user = userRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+        user.setDeletedUser(true);
+        user.setUserStatus(UserStatus.DELETED);
+        return ResponseEntity.noContent().build();
 
     }
+
+
 }

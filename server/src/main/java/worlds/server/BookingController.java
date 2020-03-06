@@ -8,9 +8,11 @@ import java.net.URISyntaxException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -19,7 +21,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
 class BookingController {
-    private final BookingRepository bookingRepository;
+    static final String USER = "user";
+	private final BookingRepository bookingRepository;
     private final BookingResourceAssembler bookingResourceAssembler;
     private final MediaMetaDataRepository mediaMetaDataRepository;
     private final MediaMetaDataResourceAssembler mediaMetaDataResourceAssembler;
@@ -39,13 +42,14 @@ class BookingController {
      * GET method
      * 
      * @return all bookings in the DB
+     * Only map the bookings where its deletedBooking flag is set to false.
      */
     @GetMapping(value = "/bookings", produces = "application/json; charset=UTF-8")
     Resources<Resource<Booking>> all() {
         List<Resource<Booking>> bookings = bookingRepository.findAll().stream()
-                .map(bookingResourceAssembler::toResource).collect(Collectors.toList());
-
-        return new Resources<>(bookings, linkTo(methodOn(BookingController.class).all()).withSelfRel());
+            .filter(booking -> booking.getDeletedBooking() == false)
+            .map(bookingResourceAssembler::toResource).collect(Collectors.toList());
+            return new Resources<>(bookings, linkTo(methodOn(BookingController.class).all()).withSelfRel());
     }
 
     /**
@@ -58,7 +62,12 @@ class BookingController {
     @GetMapping(value = "/bookings/{id}", produces = "application/json; charset=UTF-8")
     Resource<Booking> one(@PathVariable String id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
-        return bookingResourceAssembler.toResource(booking);
+        if (booking.getDeletedBooking() == false) {
+            return bookingResourceAssembler.toResource(booking);
+        } else {
+            // Will return null because the feteched user is currently deleted.
+            return null;
+        }
     }
 
     /**
@@ -72,6 +81,7 @@ class BookingController {
     Resources<Resource<MediaMetaData>> getMediaMetaDatas(@PathVariable String id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
 
+        if (booking.getDeletedBooking() == false) {
         List<MediaMetaData> mediaMetaDataResults = new ArrayList<MediaMetaData>();
         String[] mediaMetaDataIds = booking.getMediaIds();
 
@@ -97,6 +107,11 @@ class BookingController {
 
         return new Resources<>(finalMediaMetaDatas,
                 linkTo(methodOn(BookingController.class).getMediaMetaDatas(booking.getId())).withSelfRel());
+        } else {
+
+            //Return no multimedia if the specific booking is deleted.
+            return null;
+        }
     }
 
     /**
@@ -114,16 +129,17 @@ class BookingController {
         String[][] rooms = newBooking.getRooms();
         String[] tags = newBooking.getTags();
         String locationCoordinates = newBooking.getLocationCoordinates();
+        Boolean deletedBooking = newBooking.getDeletedBooking();
 
         //first check if any of the arguments are null/empty
         if (realtorId == null || address == null || dateRequested == null || locationCoordinates == null
-                || rooms == null || rooms.length == 0 || tags == null) {
+                || rooms == null || rooms.length == 0 || tags == null || deletedBooking == null) {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
 
         }
 
         //create the booking object and store it
-        Booking booking = new Booking(realtorId, address, dateRequested, locationCoordinates, rooms, tags);
+        Booking booking = new Booking(realtorId, address, dateRequested, locationCoordinates, rooms, tags, deletedBooking);
         Booking savedBooking = bookingRepository.save(booking);
         
         //get the realtor and insert this booking into their list of ids
@@ -141,6 +157,14 @@ class BookingController {
         Resource<Booking> resource = bookingResourceAssembler.toResource(savedBooking);
 
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+    }
+
+    @DeleteMapping("bookings/{id}")
+    public ResponseEntity<?> deleteBooking(@PathVariable String id) {
+
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+        booking.setDeletedBooking(true);
+        return ResponseEntity.noContent().build();
     }
 
 }

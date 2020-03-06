@@ -1,5 +1,5 @@
 package worlds.server;
 
 enum UserStatus {
-    PENDING, APPROVED, BANNED
+    PENDING, APPROVED, BANNED, DELETED
 }

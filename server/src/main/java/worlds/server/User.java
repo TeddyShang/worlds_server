@@ -24,6 +24,7 @@ public class User{
     public String email;
     private String hashedPassword;
     private Integer failedLogInAttempts;
+    private Boolean deletedUser;
 
     User(){}
     
@@ -43,5 +44,6 @@ public class User{
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         this.hashedPassword = hashedPassword;
         this.failedLogInAttempts = 0;
+        this.deletedUser = false;
     }
 }
