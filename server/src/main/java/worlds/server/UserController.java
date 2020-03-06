@@ -328,6 +328,7 @@ class UserController {
         User user = userRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
         user.setDeletedUser(true);
         user.setUserStatus(UserStatus.DELETED);
+        userRepository.save(user);
         return ResponseEntity.noContent().build();
 
     }

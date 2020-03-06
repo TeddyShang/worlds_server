@@ -181,6 +181,7 @@ class BookingController {
 
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
         booking.setDeletedBooking(true);
+        bookingRepository.save(booking);
         return ResponseEntity.noContent().build();
     }
 
