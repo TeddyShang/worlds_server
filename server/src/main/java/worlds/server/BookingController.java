@@ -8,15 +8,20 @@ import java.net.URISyntaxException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
@@ -157,6 +162,18 @@ class BookingController {
         Resource<Booking> resource = bookingResourceAssembler.toResource(savedBooking);
 
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+    }
+
+    @PutMapping("/bookings/{id}")
+    ResponseEntity<Booking> updateBooking(@Valid @RequestBody Booking bookingInfo,
+    @PathVariable final String id) throws BookingNotFoundException {
+        Booking booking = bookingRepository.findById(id)
+        .orElseThrow(() -> new BookingNotFoundException("Booking does not exist with id ::" + id));
+
+        BeanUtils.copyProperties(bookingInfo,booking);
+
+        final Booking updatedBooking= bookingRepository.save(booking);
+        return ResponseEntity.ok(updatedBooking);
     }
 
     @DeleteMapping("bookings/{id}")
