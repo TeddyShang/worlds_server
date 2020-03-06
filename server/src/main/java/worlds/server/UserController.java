@@ -309,7 +309,7 @@ class UserController {
         }
     }
 
-    @PutMapping("/userprofiles/{id}")
+    @PutMapping("/users/{id}")
     ResponseEntity<User> updateUser(@Valid @RequestBody User userInfo,
     @PathVariable final String id) throws UserNotFoundException {
         User user = userRepository.findById(id)
