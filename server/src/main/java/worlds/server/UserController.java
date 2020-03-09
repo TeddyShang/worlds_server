@@ -321,16 +321,37 @@ class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    
+    /*
+    *
+    * When a user is deleted, its ID will be marked deleted but also its related bookings
+    * should also be deleted.
+    */
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteBooking(@PathVariable String id) {
+    public ResponseEntity<?> deleteUser(@PathVariable String id) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+        //Deletes a following user with correlated ID.
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setDeletedUser(true);
         user.setUserStatus(UserStatus.DELETED);
-        userRepository.save(user);
-        return ResponseEntity.noContent().build();
 
+        //a deleted user should not have any booking Ids
+
+        // Since the user is deleted, go through its booking Id list and set each booking as DELETED as well.
+        String[] associatedBookings = user.getBookingIds();
+
+        for (String bookings : associatedBookings) {
+            Booking abooking = bookingRepository.findById(bookings).orElseThrow(() -> new BookingNotFoundException(bookings));
+            abooking.setDeletedBooking(true);
+            bookingRepository.save(abooking);
+        }
+        
+        user.setBookingIds(new String[0]);
+
+        // At the end save the user with its deleted bookings and deleted user.
+        userRepository.save(user);
+
+        //return 204.
+        return ResponseEntity.noContent().build();
     }
 
 

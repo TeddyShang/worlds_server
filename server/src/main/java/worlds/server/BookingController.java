@@ -175,11 +175,50 @@ class BookingController {
         final Booking updatedBooking= bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
     }
-
+    /*
+    *
+    * Since we are deleting a booking, need to delete BOOKING and
+    * Go through the USER associated with the bookings (can be content creator or realtor)
+    * and mark these bookings as DELETED from their USER BOOKING ID ARRAYS.
+    */
     @DeleteMapping("bookings/{id}")
     public ResponseEntity<?> deleteBooking(@PathVariable String id) {
 
+        //find booking ID 
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+
+        //find user ID from the booking's realtor id part.
+        User realtorBooking = userRepository.findById(booking.getRealtorId()).orElseThrow(() 
+        -> new UserNotFoundException(booking.getRealtorId()));
+
+        //find user ID from the booking's creator id part.
+        User creatorBooking = userRepository.findById(booking.getCreatorId()).orElseThrow(() 
+        -> new UserNotFoundException(booking.getCreatorId()));
+        
+        // get all bookings for that user.
+        String [] allUserBookings = realtorBooking.getBookingIds();
+        String [] allcreatorBookings = creatorBooking.getBookingIds();
+
+        //store bookings as list.
+        List<String> list = new ArrayList<String>(Arrays.asList(allUserBookings));
+        List<String> list2 = new ArrayList<String>(Arrays.asList(allcreatorBookings));
+
+        //remove the deleted booking from the list.
+        list.remove(booking.getId());
+        list2.remove(booking.getId());
+
+        //save new list as an array.
+        allUserBookings = list.toArray(new String[0]);
+        allcreatorBookings = list2.toArray(new String[0]);
+
+        //set booking id array to modified string[]
+        realtorBooking.setBookingIds(allUserBookings);
+        creatorBooking.setBookingIds(allcreatorBookings);
+        
+        //save new user instance in repo
+        userRepository.save(realtorBooking);
+        userRepository.save(creatorBooking);
+
         booking.setDeletedBooking(true);
         bookingRepository.save(booking);
         return ResponseEntity.noContent().build();
