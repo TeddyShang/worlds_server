@@ -191,33 +191,37 @@ class BookingController {
         User realtorBooking = userRepository.findById(booking.getRealtorId()).orElseThrow(() 
         -> new UserNotFoundException(booking.getRealtorId()));
 
-        //find user ID from the booking's creator id part.
-        User creatorBooking = userRepository.findById(booking.getCreatorId()).orElseThrow(() 
-        -> new UserNotFoundException(booking.getCreatorId()));
+        if (booking.getCreatorId() != null) {
+            //find user ID from the booking's creator id part.
+            User creatorBooking = userRepository.findById(booking.getCreatorId()).orElseThrow(() 
+            -> new UserNotFoundException(booking.getCreatorId()));
+
+            String [] allcreatorBookings = creatorBooking.getBookingIds();
+            List<String> list2 = new ArrayList<String>(Arrays.asList(allcreatorBookings));
+            list2.remove(booking.getId());
+            allcreatorBookings = list2.toArray(new String[0]);
+            creatorBooking.setBookingIds(allcreatorBookings);
+            userRepository.save(creatorBooking);
+        }
         
         // get all bookings for that user.
         String [] allUserBookings = realtorBooking.getBookingIds();
-        String [] allcreatorBookings = creatorBooking.getBookingIds();
 
         //store bookings as list.
         List<String> list = new ArrayList<String>(Arrays.asList(allUserBookings));
-        List<String> list2 = new ArrayList<String>(Arrays.asList(allcreatorBookings));
 
         //remove the deleted booking from the list.
         list.remove(booking.getId());
-        list2.remove(booking.getId());
+
 
         //save new list as an array.
         allUserBookings = list.toArray(new String[0]);
-        allcreatorBookings = list2.toArray(new String[0]);
 
         //set booking id array to modified string[]
         realtorBooking.setBookingIds(allUserBookings);
-        creatorBooking.setBookingIds(allcreatorBookings);
         
         //save new user instance in repo
         userRepository.save(realtorBooking);
-        userRepository.save(creatorBooking);
 
         booking.setDeletedBooking(true);
         bookingRepository.save(booking);
