@@ -18,8 +18,11 @@ public class ServerApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/bookings").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/bookings/**").allowedOrigins("http://localhost:3000").allowedMethods("PUT", "GET", "DELETE");
 				registry.addMapping("/users").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/login").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/mediametadatas").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/mediametadatas/**").allowedOrigins("http://localhost:3000").allowedMethods("PUT", "GET", "DELETE");
 			}
 		};
 	}

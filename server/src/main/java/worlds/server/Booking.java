@@ -39,6 +39,8 @@ public class Booking {
         this.dateRequested = dateRequested;
         this.bookingPrivacy = BookingPrivacy.OPEN;
         this.bookingStatus = BookingStatus.PENDING;
+        this.creatorId = null;
+        this.dateCompleted = null;
         Date date = new Date();
         this.dateCreated = date.getTime();
         this.mediaIds = new String[0];

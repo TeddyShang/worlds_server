@@ -170,8 +170,18 @@ class BookingController {
         Booking booking = bookingRepository.findById(id)
         .orElseThrow(() -> new BookingNotFoundException("Booking does not exist with id ::" + id));
 
-        BeanUtils.copyProperties(bookingInfo,booking);
-
+        booking.setRealtorId(bookingInfo.getRealtorId());
+        booking.setLocationCoordinates(bookingInfo.getLocationCoordinates());
+        booking.setDateCreated(bookingInfo.getDateCreated());
+        booking.setDateRequested(bookingInfo.getDateRequested());
+        booking.setCreatorId(bookingInfo.getCreatorId());
+        booking.setAddress(bookingInfo.getAddress());
+        booking.setMediaIds(bookingInfo.getMediaIds());
+        booking.setTags(bookingInfo.getTags());
+        booking.setRooms(bookingInfo.getRooms());
+        booking.setBookingPrivacy(bookingInfo.getBookingPrivacy());
+        booking.setBookingStatus(bookingInfo.getBookingStatus());
+        booking.setDeletedBooking(bookingInfo.getDeletedBooking());
         final Booking updatedBooking= bookingRepository.save(booking);
         return ResponseEntity.ok(updatedBooking);
     }
