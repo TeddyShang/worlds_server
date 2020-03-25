@@ -79,7 +79,7 @@ public class UserControllerTest {
         String [] tags = new String[] {"Photos"};
 
         user1.convertFrom(new User("John", "Doe", UserType.REALTOR, 
-                                    "doey123", "jdoe1@gmail.com", "abcd"));
+                                    "doey123", "jdoe1@gmail.com", "abcd", "Random text"));
 
         user1.setId("1");
 

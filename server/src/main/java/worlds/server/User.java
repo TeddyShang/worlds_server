@@ -22,13 +22,14 @@ public class User{
     public Long lastLoggedIn;
     public String realtorId;
     public String email;
+    public String approvalText;
     private String hashedPassword;
     private Integer failedLogInAttempts;
     private Boolean deletedUser;
 
     User(){}
     
-    User(String firstName, String lastName, UserType userType, String password, String email, String realtorId) {
+    User(String firstName, String lastName, UserType userType, String password, String email, String realtorId, String approvalText) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userType = userType;
@@ -45,5 +46,6 @@ public class User{
         this.hashedPassword = hashedPassword;
         this.failedLogInAttempts = 0;
         this.deletedUser = false;
+        this.approvalText = approvalText;
     }
 }

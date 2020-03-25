@@ -188,6 +188,8 @@ class UserController {
 
         String email = newUser.getEmail();
 
+        String approvalText = newUser.getApprovalText();
+
         // If any argument is null, we do not create the user object
         if (firstName == null || lastName == null || userType == null || password == null || email == null) {
             return ResponseEntity.badRequest().body("Bad Request: Null Arguments");
@@ -236,7 +238,7 @@ class UserController {
         }
         
         //finally create the user
-        User user = new User(firstName, lastName, userType, password, email, realtorId);
+        User user = new User(firstName, lastName, userType, password, email, realtorId , approvalText);
 
         //auto approval process for realtors
         if(autoApproved) {
@@ -289,6 +291,10 @@ class UserController {
             user.setUserState(UserState.LOCKED);
             userRepository.save(user);
             return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
+        if(user.getUserStatus() == UserStatus.PENDING) {
+            return new ResponseEntity<String>("Account has not been approved. Please contact admin.", HttpStatus.UNAUTHORIZED);
         }
 
         String hashedPassword = user.getHashedPassword();
