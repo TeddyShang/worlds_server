@@ -284,17 +284,17 @@ class UserController {
         }
         
         if (user.getUserStatus() == UserStatus.DELETED ) {
-            return new ResponseEntity<String>("Account has been deleted. Please contact admin.", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>("Account has been deleted. Please contact admins.", HttpStatus.NO_CONTENT);
         }
 
         if (user.getFailedLogInAttempts() >= MAX_ATTEMPTS) {
             user.setUserState(UserState.LOCKED);
             userRepository.save(user);
-            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("Account has been locked due to too many log in attempts. Please contant admins", HttpStatus.UNAUTHORIZED);
         }
 
         if(user.getUserStatus() == UserStatus.PENDING) {
-            return new ResponseEntity<String>("Account has not been approved. Please contact admin.", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("Account has not been approved. Please contact admins.", HttpStatus.UNAUTHORIZED);
         }
 
         String hashedPassword = user.getHashedPassword();
@@ -304,7 +304,7 @@ class UserController {
             failedLogInAttempts++;
             user.setFailedLogInAttempts(failedLogInAttempts);
             userRepository.save(user);
-            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
         } else {
             user.setFailedLogInAttempts(0);
             userRepository.save(user);
