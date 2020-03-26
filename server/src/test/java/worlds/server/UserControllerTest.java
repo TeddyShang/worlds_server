@@ -62,7 +62,6 @@ public class UserControllerTest {
     private UserProtected user1;
 
     private MediaMetaData media;
-    private String[] mediaids;
 
     @Before
     public void setup() {
@@ -76,8 +75,6 @@ public class UserControllerTest {
 
     private void setUpObjects() {
             
-        String [] tags = new String[] {"Photos"};
-
         user1.convertFrom(new User("John", "Doe", UserType.REALTOR, 
                                     "doey123", "jdoe1@gmail.com", "abcd", "Random text"));
 

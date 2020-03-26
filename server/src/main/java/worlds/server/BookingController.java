@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import java.util.stream.Collectors;
