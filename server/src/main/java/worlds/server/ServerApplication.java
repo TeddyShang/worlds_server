@@ -22,6 +22,7 @@ public class ServerApplication {
 				registry.addMapping("/userprofiles").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/userprofiles/**").allowedOrigins("http://localhost:3000").allowedMethods("PUT", "GET", "DELETE");
 				registry.addMapping("/users").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/users/**").allowedOrigins("http://localhost:3000").allowedMethods("PUT", "GET", "DELETE");;
 				registry.addMapping("/login").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/mediametadatas").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/mediametadatas/**").allowedOrigins("http://localhost:3000").allowedMethods("PUT", "GET", "DELETE");
