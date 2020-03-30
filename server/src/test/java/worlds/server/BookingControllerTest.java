@@ -78,8 +78,6 @@ public class BookingControllerTest {
             
         String [] tags = new String[] {"Photos"};
 
-        Boolean deletedBooking = false;
-
         mediaids = new String[] {"200"};
 
         String [] bookingid = new String[] {"300"};
@@ -87,7 +85,7 @@ public class BookingControllerTest {
         user.setId("1");
         user.setBookingIds(bookingid);
 
-        booking1 = new Booking("1", "Main Street", "02/02/20", "1.2.3.1", rooms, tags, deletedBooking);
+        booking1 = new Booking("1", "Main Street", "02/02/20", "1.2.3.1", rooms, tags);
         booking1.setId("1");
         booking1.setMediaIds(mediaids);
 

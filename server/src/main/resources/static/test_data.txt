@@ -12,50 +12,22 @@
   "userStatus": "PENDING",
   "userType": "REALTOR",
   "userState": "UNLOCKED",
-  "profileId": "5e586a7ab69af82f68c9c6d5",
+  "profileId": "5e827c61e14bf25a1405b98e",
   "bookingIds": [],
-  "dateCreated": 1582852730121,
-  "lastLoggedIn": 1582852730121,
+  "dateCreated": 1585609825471,
+  "lastLoggedIn": 1585609825471,
   "realtorId": "184812",
   "email": "blackwidow@nyc.com",
   "_links": {
     "self": {
-      "href": "http://localhost:8080/users/5e586a7ab69af82f68c9c6d6"
+      "href": "http://localhost:8080/users/5e827c61e14bf25a1405b98f"
     },
     "users": {
       "href": "http://localhost:8080/users"
     }
   }
 }
-{
-    "firstName": "Ricky",
-    "lastName": "Bobby",
-    "userType": "REALTOR",
-    "hashedPassword" : "winnersneverlose",
-    "email" : "winner@nyc.com",
-    "realtorId" : "57984"
-}
-{
-  "firstName": "Ricky",
-  "lastName": "Bobby",
-  "userStatus": "PENDING",
-  "userType": "REALTOR",
-  "userState": "UNLOCKED",
-  "profileId": "5e586a86b69af82f68c9c6d7",
-  "bookingIds": [],
-  "dateCreated": 1582852742657,
-  "lastLoggedIn": 1582852742657,
-  "realtorId": "57984",
-  "email": "winner@nyc.com",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/users/5e586a86b69af82f68c9c6d8"
-    },
-    "users": {
-      "href": "http://localhost:8080/users"
-    }
-  }
-}
+
 {
     "firstName": "Pablo",
     "lastName": "Picasso",
@@ -70,81 +42,24 @@
   "userStatus": "PENDING",
   "userType": "CREATOR",
   "userState": "UNLOCKED",
-  "profileId": "5e586ae2b69af82f68c9c6d9",
+  "profileId": "5e827c76e14bf25a1405b990",
   "bookingIds": [],
-  "dateCreated": 1582852834027,
-  "lastLoggedIn": 1582852834027,
+  "dateCreated": 1585609846456,
+  "lastLoggedIn": 1585609846456,
   "realtorId": "",
   "email": "mural@es.com",
   "_links": {
     "self": {
-      "href": "http://localhost:8080/users/5e586ae2b69af82f68c9c6da"
+      "href": "http://localhost:8080/users/5e827c76e14bf25a1405b991"
     },
     "users": {
       "href": "http://localhost:8080/users"
     }
   }
 }
-{
-    "firstName": "Leonardo",
-    "lastName": "DiCaprio",
-    "userType": "CREATOR",
-    "hashedPassword" : "oscarwinner",
-    "email" : "wolf@wallstreet.com",
-    "realtorId" : ""
-}
-{
-  "firstName": "Leonardo",
-  "lastName": "DiCaprio",
-  "userStatus": "PENDING",
-  "userType": "CREATOR",
-  "userState": "UNLOCKED",
-  "profileId": "5e586b09b69af82f68c9c6db",
-  "bookingIds": [],
-  "dateCreated": 1582852873122,
-  "lastLoggedIn": 1582852873122,
-  "realtorId": "",
-  "email": "wolf@wallstreet.com",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/users/5e586b09b69af82f68c9c6dc"
-    },
-    "users": {
-      "href": "http://localhost:8080/users"
-    }
-  }
-}
-{
-    "firstName": "Matt",
-    "lastName": "Ryan",
-    "userType": "STAFF",
-    "hashedPassword" : "mvpbutnotsb",
-    "email" : "atl@falcons.com",
-    "realtorId" : ""
-}
-{
-  "firstName": "Matt",
-  "lastName": "Ryan",
-  "userStatus": "PENDING",
-  "userType": "STAFF",
-  "userState": "UNLOCKED",
-  "profileId": "5e586b25b69af82f68c9c6dd",
-  "bookingIds": [],
-  "dateCreated": 1582852901377,
-  "lastLoggedIn": 1582852901377,
-  "realtorId": "",
-  "email": "atl@falcons.com",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/users/5e586b25b69af82f68c9c6de"
-    },
-    "users": {
-      "href": "http://localhost:8080/users"
-    }
-  }
-}
+
   {
-    "realtorId": "5e586a7ab69af82f68c9c6d6",
+    "realtorId": "5e827c61e14bf25a1405b98f",
     "address": "1600 Pennsylvania Ave, Baltimore, MD, USA",
     "dateRequested": "2/12/2020",
     "locationCoordinates": "(1142431.4373195986,-4808227.662235494,4018407.8984806594)",
@@ -164,46 +79,13 @@
             "1",
             "false"
         ]
-    ]
-}
-{
-  "dateCreated": 1582852972543,
-  "dateRequested": "2/12/2020",
-  "realtorId": "5e586a7ab69af82f68c9c6d6",
-  "locationCoordinates": "(1142431.4373195986,-4808227.662235494,4018407.8984806594)",
-  "address": "1600 Pennsylvania Ave, Baltimore, MD, USA",
-  "mediaIds": [],
-  "tags": [],
-  "rooms": [
-    [
-      "Oval Office",
-      "3",
-      "false"
     ],
-    [
-      "War Room",
-      "3",
-      "true"
-    ],
-    [
-      "Secret Bunker",
-      "1",
-      "false"
-    ]
-  ],
-  "bookingPrivacy": "OPEN",
-  "bookingStatus": "PENDING",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/bookings/5e586b6cb69af82f68c9c6df"
-    },
-    "bookings": {
-      "href": "http://localhost:8080/bookings"
-    }
-  }
+    "tags":["photos", "videos"]
+    
 }
   {
-    "realtorId": "5e586a7ab69af82f68c9c6d6",
+    "realtorId": "5e827c61e14bf25a1405b98f",
+    "tags":["photos", "videos"],
     "address": "Empire State Building, Manhattan, New York, NY, USA",
     "dateRequested": "2/12/2020",
     "locationCoordinates": "(1334938.5881260387, -4651089.165433851, 4141298.7537432066)",
@@ -226,167 +108,26 @@
     ]
 }
 {
-  "dateCreated": 1582853002744,
-  "dateRequested": "2/12/2020",
-  "realtorId": "5e586a7ab69af82f68c9c6d6",
-  "locationCoordinates": "(1334938.5881260387, -4651089.165433851, 4141298.7537432066)",
-  "address": "Empire State Building, Manhattan, New York, NY, USA",
-  "mediaIds": [],
-  "tags": [],
-  "rooms": [
-    [
-      "Sky Deck",
-      "3",
-      "false"
-    ],
-    [
-      "Ground Floor",
-      "3",
-      "true"
-    ],
-    [
-      "Panic Room",
-      "1",
-      "false"
-    ]
-  ],
-  "bookingPrivacy": "OPEN",
-  "bookingStatus": "PENDING",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/bookings/5e586b8ab69af82f68c9c6e0"
-    },
-    "bookings": {
-      "href": "http://localhost:8080/bookings"
-    }
-  }
-}
-{
-	"realtorId": "5e586a86b69af82f68c9c6d8",
+    "realtorId": "5e827c61e14bf25a1405b98f",
+    "tags":["photos", "videos"],
 	"address": "Daytona 500 Club, Daytona Beach, FL, USA",
 	"dateRequested": "2/12/2020",
 	"locationCoordinates": "(864878.4939355286,-5505244.359097497,3092000.740825258)",
 	"rooms": [["Champions Club","3","false"], ["Checkered Flag","3","true"],["Winners Circle","1","false"]]
 }
-{
-  "dateCreated": 1582853059987,
-  "dateRequested": "2/12/2020",
-  "realtorId": "5e586a86b69af82f68c9c6d8",
-  "locationCoordinates": "(864878.4939355286,-5505244.359097497,3092000.740825258)",
-  "address": "Daytona 500 Club, Daytona Beach, FL, USA",
-  "mediaIds": [],
-  "tags": [],
-  "rooms": [
-    [
-      "Champions Club",
-      "3",
-      "false"
-    ],
-    [
-      "Checkered Flag",
-      "3",
-      "true"
-    ],
-    [
-      "Winners Circle",
-      "1",
-      "false"
-    ]
-  ],
-  "bookingPrivacy": "OPEN",
-  "bookingStatus": "PENDING",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/bookings/5e586bc3b69af82f68c9c6e1"
-    },
-    "bookings": {
-      "href": "http://localhost:8080/bookings"
-    }
-  }
-}
   {
-	"realtorId": "5e586a86b69af82f68c9c6d8",
+    "realtorId": "5e827c61e14bf25a1405b98f",
+    "tags":["photos", "videos"],
 	"address": "Venice Beach, Los Angeles, CA, USA",
 	"dateRequested": "2/12/2020",
 	"locationCoordinates": "(-2524019.930915548,-4653704.697073177,3545177.522316003)",
 	"rooms": [["Tiki Bar","3","false"], ["Muscle Beach","3","true"],["Pier","1","false"]]
 }
-{
-  "dateCreated": 1582853077300,
-  "dateRequested": "2/12/2020",
-  "realtorId": "5e586a86b69af82f68c9c6d8",
-  "locationCoordinates": "(-2524019.930915548,-4653704.697073177,3545177.522316003)",
-  "address": "Venice Beach, Los Angeles, CA, USA",
-  "mediaIds": [],
-  "tags": [],
-  "rooms": [
-    [
-      "Tiki Bar",
-      "3",
-      "false"
-    ],
-    [
-      "Muscle Beach",
-      "3",
-      "true"
-    ],
-    [
-      "Pier",
-      "1",
-      "false"
-    ]
-  ],
-  "bookingPrivacy": "OPEN",
-  "bookingStatus": "PENDING",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/bookings/5e586bd5b69af82f68c9c6e2"
-    },
-    "bookings": {
-      "href": "http://localhost:8080/bookings"
-    }
-  }
-}
   {
-	"realtorId": "5e586ae2b69af82f68c9c6da",
+	    "realtorId": "5e827c61e14bf25a1405b98f",
+    "tags":["photos", "videos"],
 	"address": "Mercedes-Benz Stadium, Atlanta, GA, USA",
 	"dateRequested": "2/12/2020",
 	"locationCoordinates": "(517927.97066703276, -5283055.055160589,3523921.15190686)",
 	"rooms": [["Falcons Box","3","false"], ["United Seats","3","true"],["Freeman Room","1","false"]]
-}
-{
-  "dateCreated": 1582853141467,
-  "dateRequested": "2/12/2020",
-  "realtorId": "5e586ae2b69af82f68c9c6da",
-  "locationCoordinates": "(517927.97066703276, -5283055.055160589,3523921.15190686)",
-  "address": "Mercedes-Benz Stadium, Atlanta, GA, USA",
-  "mediaIds": [],
-  "tags": [],
-  "rooms": [
-    [
-      "Falcons Box",
-      "3",
-      "false"
-    ],
-    [
-      "United Seats",
-      "3",
-      "true"
-    ],
-    [
-      "Freeman Room",
-      "1",
-      "false"
-    ]
-  ],
-  "bookingPrivacy": "OPEN",
-  "bookingStatus": "PENDING",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/bookings/5e586c15b69af82f68c9c6e3"
-    },
-    "bookings": {
-      "href": "http://localhost:8080/bookings"
-    }
-  }
 }
