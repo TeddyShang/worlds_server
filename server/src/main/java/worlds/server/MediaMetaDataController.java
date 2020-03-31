@@ -56,7 +56,7 @@ class MediaMetaDataController{
     }
 
     @PutMapping("/mediametadatas/{id}")
-    ResponseEntity<MediaMetaData> updateMediaMetadata(@Valid @RequestBody MediaMetaData newMediaMetaData,
+    Resource<MediaMetaData> updateMediaMetadata(@Valid @RequestBody MediaMetaData newMediaMetaData,
     @PathVariable final String id) throws MediaMetaDataNotFoundException {
         MediaMetaData current = repository.findById(id)
         .orElseThrow(() -> new MediaMetaDataNotFoundException("media does not exist with id ::" + id));
@@ -66,7 +66,7 @@ class MediaMetaDataController{
         current.setUrlToMedia(newMediaMetaData.getUrlToMedia());
         current.setDateUploaded(newMediaMetaData.getDateUploaded());
         final MediaMetaData updatedMetaData = repository.save(current);
-        return ResponseEntity.ok(updatedMetaData);
+        return assembler.toResource(updatedMetaData);
     }
 
 }

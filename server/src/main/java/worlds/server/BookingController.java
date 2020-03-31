@@ -163,7 +163,7 @@ class BookingController {
     }
 
     @PutMapping("/bookings/{id}")
-    ResponseEntity<Booking> updateBooking(@Valid @RequestBody Booking bookingInfo,
+    Resource<Booking> updateBooking(@Valid @RequestBody Booking bookingInfo,
     @PathVariable final String id) throws BookingNotFoundException {
         Booking booking = bookingRepository.findById(id)
         .orElseThrow(() -> new BookingNotFoundException("Booking does not exist with id ::" + id));
@@ -172,6 +172,7 @@ class BookingController {
         booking.setLocationCoordinates(bookingInfo.getLocationCoordinates());
         booking.setDateCreated(bookingInfo.getDateCreated());
         booking.setDateRequested(bookingInfo.getDateRequested());
+        booking.setDateCompleted(bookingInfo.getDateCompleted());
         booking.setCreatorId(bookingInfo.getCreatorId());
         booking.setAddress(bookingInfo.getAddress());
         booking.setMediaIds(bookingInfo.getMediaIds());
@@ -182,7 +183,7 @@ class BookingController {
         booking.setDeletedBooking(bookingInfo.getDeletedBooking());
         booking.setMediaIdsByRoom(bookingInfo.getMediaIdsByRoom());
         final Booking updatedBooking= bookingRepository.save(booking);
-        return ResponseEntity.ok(updatedBooking);
+        return bookingResourceAssembler.toResource(updatedBooking);
     }
     /*
     *
