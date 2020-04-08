@@ -65,7 +65,7 @@ class UserController {
                 userProtected.convertFrom(user);
                 protectedResults.add(userProtected);
             } else {
-                return null;
+                throw new UserNotFoundException(user.id);
             }
         }
 
@@ -91,7 +91,7 @@ class UserController {
             userProtected.convertFrom(user);
             return userResourceAssembler.toResource(userProtected);
         } else {
-            return null;
+            throw new UserNotFoundException(user.id);
         }
     }
 
@@ -117,7 +117,7 @@ class UserController {
 
             return userProfileResourceAssembler.toResource(userProfile, user);
         } else {
-            return null;
+            throw new UserNotFoundException(user.id);
         }
     }
 
@@ -162,7 +162,7 @@ class UserController {
                 linkTo(methodOn(UserController.class).getBookings(user.getId())).withSelfRel());
 
         } else {
-            return null;
+            throw new UserNotFoundException(user.id);
         }
     }
 
@@ -208,7 +208,7 @@ class UserController {
         }
 
 
-        //TODO next check to see if the password meets requirements, temporary char check right now (REGEX)
+        // TODO: next check to see if the password meets requirements, temporary char check right now (REGEX)
         if (password.length() < 8) {
             return ResponseEntity.badRequest().body("Bad Request: Password too weak");
         }
@@ -263,6 +263,7 @@ class UserController {
 
     /**
      * TODO: Exception Checking
+     * 
      * @param login Login object, username and unhashed password of user
      * @return ProtectedUser as Json if accepted, Unauthorized otherwise
      * @throws URISyntaxException
@@ -315,6 +316,12 @@ class UserController {
         }
     }
 
+    /** 
+    * PUT method
+    * @param userInfo user object created
+    * @param id id associated with a user
+    * @return saves modified properties of user into the database.
+    */
     @PutMapping("/users/{id}")
     ResponseEntity<User> updateUser(@Valid @RequestBody User userInfo,
     @PathVariable final String id) throws UserNotFoundException {
@@ -327,22 +334,24 @@ class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    /*
-    *
-    * When a user is deleted, its ID will be marked deleted but also its related bookings
-    * should also be deleted.
+    /**
+    * DELETE method
+    * @param id id associated with a user
+    * @return 204 code that gives an "OK" for a soft deletion of a user. The soft deletion of 
+    * a user is the following:
+    * When a user is deleted, its ID will be marked deleted where "DeletedUser = true".  
+    * The user's related bookings is also marked deleted.
+    * However, the user and bookings are still in the database.
     */
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable String id) {
 
-        //Deletes a following user with correlated ID.
+        // Deletes a following user with correlated ID.
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setDeletedUser(true);
         user.setUserStatus(UserStatus.DELETED);
 
-        //a deleted user should not have any booking Ids
-
-        // Since the user is deleted, go through its booking Id list and set each booking as DELETED as well.
+        // Since the user is deleted, go through its booking id list and set each booking as DELETED as well.
         String[] associatedBookings = user.getBookingIds();
 
         for (String bookings : associatedBookings) {
