@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 class UserNotFoundAdvice {
-
+  
+  /**
+   * 
+   * @param ex Exception
+   * @return Response with status code and exception message.
+   */
   @ResponseBody
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
