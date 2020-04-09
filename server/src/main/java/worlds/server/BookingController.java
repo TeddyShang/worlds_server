@@ -1,11 +1,9 @@
 package worlds.server;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,19 +11,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
 class BookingController {
-    static final String USER = "user";
 	private final BookingRepository bookingRepository;
     private final BookingResourceAssembler bookingResourceAssembler;
     private final MediaMetaDataRepository mediaMetaDataRepository;
@@ -89,8 +83,7 @@ class BookingController {
         List<MediaMetaData> mediaMetaDataResults = new ArrayList<MediaMetaData>();
         String[] mediaMetaDataIds = booking.getMediaIds();
 
-        // if the booking has no mediametadatas or is empty, we should return an empty
-        // list
+        // if the booking has no mediametadatas or is empty, we should return an empty list
         if (mediaMetaDataIds == null || mediaMetaDataIds.length == 0) {
             List<Resource<MediaMetaData>> finalMediaMetaDatas = mediaMetaDataResults.stream()
                     .map(mediaMetaDataResourceAssembler::toResource).collect(Collectors.toList());
@@ -113,7 +106,7 @@ class BookingController {
                 linkTo(methodOn(BookingController.class).getMediaMetaDatas(booking.getId())).withSelfRel());
         } else {
 
-            //Return no multimedia if the specific booking is deleted.
+            //Return no mediametadata if the specific booking is deleted.
             return null;
         }
     }
@@ -162,6 +155,14 @@ class BookingController {
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
+    /**
+     * PUT method
+     * 
+     * @param bookingInfo incoming JSON object
+     * @param id of booking to be edited
+     * @return edited booking object
+     * @throws BookingNotFoundException
+     */
     @PutMapping("/bookings/{id}")
     Resource<Booking> updateBooking(@Valid @RequestBody Booking bookingInfo,
     @PathVariable final String id) throws BookingNotFoundException {
@@ -185,16 +186,16 @@ class BookingController {
         final Booking updatedBooking= bookingRepository.save(booking);
         return bookingResourceAssembler.toResource(updatedBooking);
     }
-    /*
-    *
-    * Since we are deleting a booking, need to delete BOOKING and
-    * Go through the USER associated with the bookings (can be content creator or realtor)
-    * and mark these bookings as DELETED from their USER BOOKING ID ARRAYS.
-    */
+
+    /**
+     * Soft delete of the booking
+     * @param id of the booking
+     * @return NO_CONTENT status code
+     */
     @DeleteMapping("bookings/{id}")
     public ResponseEntity<?> deleteBooking(@PathVariable String id) {
 
-        //find booking ID 
+        //find booking using id
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
 
         //find user ID from the booking's realtor id part.
@@ -230,7 +231,7 @@ class BookingController {
         //set booking id array to modified string[]
         realtorBooking.setBookingIds(allUserBookings);
         
-        //save new user instance in repo
+        //save editted user instance in repo
         userRepository.save(realtorBooking);
 
         booking.setDeletedBooking(true);
