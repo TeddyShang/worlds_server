@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 class UserResourceAssembler implements ResourceAssembler<UserProtected, Resource<UserProtected>> {
 
+  /**
+   * @param userProtected 
+   * @return userProtected
+   * @return self link to userProtected 
+   * @return link to all users
+   */
   @Override
   public Resource<UserProtected> toResource(UserProtected userProtected) {
 
