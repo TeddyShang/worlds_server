@@ -4,12 +4,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 class UserProtected extends User {
+    
     UserProtected(){
     }
 
-    public void convertFrom(User user){
+    /**
+     * @param user 
+     * 
+     * Takes in a User user and sets a UserProtected "protectedUser" with the following fields.
+     */
+    public void convertFrom(User user) {
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
