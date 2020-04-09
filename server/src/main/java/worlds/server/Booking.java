@@ -1,9 +1,7 @@
 package worlds.server;
-
 import lombok.Data;
 import java.util.Date;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import org.springframework.data.annotation.Id;
 
 @Data
@@ -28,12 +26,18 @@ public class Booking {
 
     Booking() {}
 
-//switch rooms to BookingRoomInfo type later
-//Issues with "Could not write JSON: Couldn't find PersistentEntity for type class [Lworlds.server.BookingRoomInfo;!;
-// nested exception is com.fasterxml.jackson.databind.JsonMappingException: Couldn't find PersistentEntity for type 
-//class [Lworlds.server.BookingRoomInfo;! (through reference chain: org.springframework.hateoas.Resource[\"content\"]->worlds.server.Booking[\"rooms\"])",
+    /**
+     * TODO: Change dateRequested to also be a long value to capture specific datetime
+     * Constructor of what we expect from an incoming POST request
+     * @param realtorId user id of the requesting realtor. Note: not their realtor id which is their state/accredited id
+     * @param address 
+     * @param dateRequested
+     * @param locationCoordinates format "(long, lat, elevation)"
+     * @param rooms [] containing [roomName, numPhotos, videoTrue/False]
+     * @param tags
+     */
     Booking(String realtorId, String address, String dateRequested, String locationCoordinates, String[][] rooms, String[] tags) {
-        this.realtorId = realtorId; // Currently being passed in their name
+        this.realtorId = realtorId;
         this.locationCoordinates = locationCoordinates;
         this.address = address;
         this.rooms = rooms;
