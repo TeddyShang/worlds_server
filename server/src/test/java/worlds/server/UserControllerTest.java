@@ -58,6 +58,12 @@ public class UserControllerTest {
     @MockBean
     private BookingResourceAssembler bookingResourceAssemblerMock;
 
+    @MockBean
+    private UserPrivateProfileResourceAssembler userPrivateProfileResourceAssemblerMock;
+
+    @MockBean
+    private UserPrivateProfileRepository userPrivateProfileRepositoryMock;
+
 
     private UserProtected user1;
 
@@ -68,7 +74,7 @@ public class UserControllerTest {
       mockMvc =
           MockMvcBuilders.standaloneSetup(new UserController(userRepositoryMock, userResourceAssemblerMock,
           userProfileRepositoryMock, userProfileResourceAssemblerMock, bookingRepositoryMock, 
-          bookingResourceAssemblerMock))
+          bookingResourceAssemblerMock, userPrivateProfileRepositoryMock, userPrivateProfileResourceAssemblerMock))
               .build();
         setUpObjects();
     }
