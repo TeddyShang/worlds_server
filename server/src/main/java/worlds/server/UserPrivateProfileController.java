@@ -18,6 +18,11 @@ class UserPrivateProfileController{
         this.assembler = assembler;
     }
 
+    /**
+     * Gets a single users private profile
+     * @param id of the private profile
+     * @return
+     */
     @GetMapping(value = "/userprivateprofiles/{id}", produces = "application/json; charset=UTF-8")
     Resource<UserPrivateProfile> one(@PathVariable String id) {
         UserPrivateProfile userPrivateProfile = repository.findById(id)
@@ -25,6 +30,13 @@ class UserPrivateProfileController{
         return assembler.toResource(userPrivateProfile);
     }
 
+    /**
+     * Allows edits to private profiles
+     * @param userPrivateProfileInfo incoming private profile object
+     * @param id of the private profile to edit
+     * @return
+     * @throws UserPrivateProfileNotFoundException
+     */
     @PutMapping("/userprivateprofiles/{id}")
     ResponseEntity<UserPrivateProfile> updateUserPrivateProfile(@Valid @RequestBody UserProfile userPrivateProfileInfo,
     @PathVariable final String id) throws UserPrivateProfileNotFoundException {
