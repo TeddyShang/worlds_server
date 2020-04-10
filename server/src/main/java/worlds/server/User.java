@@ -17,6 +17,7 @@ public class User{
     public UserType userType;
     public UserState userState;
     public String profileId;
+    public String privateProfileId;
     public String[] bookingIds;
     public Long dateCreated;
     public Long lastLoggedIn;
@@ -38,6 +39,7 @@ public class User{
         Date date = new Date();
         this.dateCreated = date.getTime();
         this.profileId = "";
+        this.privateProfileId = "";
         this.bookingIds = new String[0];
         this.lastLoggedIn = date.getTime();
         this.email = email;

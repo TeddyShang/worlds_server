@@ -28,5 +28,6 @@ class UserProtected extends User {
         this.lastLoggedIn = user.lastLoggedIn;
         this.realtorId = user.realtorId;
         this.email = user.email;
+        this.privateProfileId = user.privateProfileId;
     }
 }

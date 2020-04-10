@@ -36,16 +36,21 @@ class UserController {
     private final UserProfileResourceAssembler userProfileResourceAssembler;
     private final BookingRepository bookingRepository;
     private final BookingResourceAssembler bookingResourceAssembler;
+    private final UserPrivateProfileRepository userPrivateProfileRepository;
+    private final UserPrivateProfileResourceAssembler userPrivateProfileResourceAssembler;
 
     UserController(UserRepository userRepository, UserResourceAssembler userResourceAssembler,
             UserProfileRepository userProfileRepository, UserProfileResourceAssembler userProfileResourceAssembler,
-            BookingRepository bookingRepository, BookingResourceAssembler bookingResourceAssembler) {
+            BookingRepository bookingRepository, BookingResourceAssembler bookingResourceAssembler, UserPrivateProfileRepository userPrivateProfileRepository,
+            UserPrivateProfileResourceAssembler userPrivateProfileResourceAssembler) {
         this.userRepository = userRepository;
         this.userResourceAssembler = userResourceAssembler;
         this.userProfileRepository = userProfileRepository;
         this.userProfileResourceAssembler = userProfileResourceAssembler;
         this.bookingRepository = bookingRepository;
         this.bookingResourceAssembler = bookingResourceAssembler;
+        this.userPrivateProfileRepository = userPrivateProfileRepository;
+        this.userPrivateProfileResourceAssembler = userPrivateProfileResourceAssembler;
     }
 
     /**
@@ -120,6 +125,33 @@ class UserController {
             throw new UserNotFoundException(user.id);
         }
     }
+
+    /**
+     * GET method
+     * 
+     * @param id of a specific user
+     * @return the profile of that user or UserNotFoundException if that id does not
+     *         exist in the DB or UserPrivateProfileNotFoundException if that UserPrivateProfile
+     *         does not exist NOTE: If the UserPrivateProfileNotFoundException is thrown,
+     *         there are DB issues since a user should always have a corresponding
+     *         user profile
+     */
+    @GetMapping(value = "/users/{id}/userprivateprofile", produces = "application/json; charset=UTF-8")
+    Resource<UserPrivateProfile> getPrivateProfile(@PathVariable String id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        String userPrivateProfileId = user.getPrivateProfileId();
+
+        if (user.getDeletedUser() == false ) {
+            UserPrivateProfile userPrivateProfile = userPrivateProfileRepository.findById(userPrivateProfileId)
+                    .orElseThrow(() -> new UserPrivateProfileNotFoundException(userPrivateProfileId));
+
+            return userPrivateProfileResourceAssembler.toResource(userPrivateProfile, user);
+        } else {
+            throw new UserNotFoundException(user.id);
+        }
+    }
+
 
     /**
      * GET method
@@ -249,6 +281,12 @@ class UserController {
         UserProfile userProfile = new UserProfile();
         UserProfile savedUserProfile = userProfileRepository.save(userProfile);
         user.setProfileId(savedUserProfile.getId());
+
+        //create a private profile for that user and save it
+        UserPrivateProfile userPrivateProfile = new UserPrivateProfile();
+        UserPrivateProfile savedUserPrivateProfile = userPrivateProfileRepository.save(userPrivateProfile);
+        user.setPrivateProfileId(savedUserPrivateProfile.getId());
+
 
         //save the user
         User savedUser = userRepository.save(user);
