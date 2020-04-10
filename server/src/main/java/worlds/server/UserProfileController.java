@@ -1,7 +1,6 @@
 package worlds.server;
 
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,11 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
@@ -48,7 +44,7 @@ class UserProfileController{
     ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfileInfo,
     @PathVariable final String id) throws UserProfileNotFoundException {
         UserProfile userProfile = repository.findById(id)
-        .orElseThrow(() -> new UserProfileNotFoundException("User profile does not exist with id ::" + id));
+        .orElseThrow(() -> new UserProfileNotFoundException(id));
 
         userProfile.setAboutMe(userProfileInfo.getAboutMe());
         userProfile.setUrlToProfilePicture(userProfileInfo.getUrlToProfilePicture());

@@ -326,7 +326,7 @@ class UserController {
     ResponseEntity<User> updateUser(@Valid @RequestBody User userInfo,
     @PathVariable final String id) throws UserNotFoundException {
         User user = userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException("User does not exist with id ::" + id));
+        .orElseThrow(() -> new UserNotFoundException(id));
 
         BeanUtils.copyProperties(userInfo,user);
 

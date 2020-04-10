@@ -167,7 +167,7 @@ class BookingController {
     Resource<Booking> updateBooking(@Valid @RequestBody Booking bookingInfo,
     @PathVariable final String id) throws BookingNotFoundException {
         Booking booking = bookingRepository.findById(id)
-        .orElseThrow(() -> new BookingNotFoundException("Booking does not exist with id ::" + id));
+        .orElseThrow(() -> new BookingNotFoundException(id));
 
         booking.setRealtorId(bookingInfo.getRealtorId());
         booking.setLocationCoordinates(bookingInfo.getLocationCoordinates());
