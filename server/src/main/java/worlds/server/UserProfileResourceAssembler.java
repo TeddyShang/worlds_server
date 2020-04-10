@@ -16,6 +16,12 @@ class UserProfileResourceAssembler implements ResourceAssembler<UserProfile, Res
       linkTo(methodOn(UserProfileController.class).all()).withRel("userprofiles"));
   }
 
+  /**
+   * Allows self links to a user profile when GET /users/{id}/userprofile
+   * @param userProfile
+   * @param user
+   * @return
+   */
   public Resource<UserProfile> toResource(UserProfile userProfile, User user) {
     return new Resource<>(userProfile,
       linkTo(methodOn(UserProfileController.class).one(userProfile.getId())).withSelfRel(),
