@@ -85,7 +85,7 @@ class MediaMetaDataController{
     Resource<MediaMetaData> updateMediaMetadata(@Valid @RequestBody MediaMetaData updateMediaMetaData,
     @PathVariable final String id) throws MediaMetaDataNotFoundException {
         MediaMetaData current = repository.findById(id)
-        .orElseThrow(() -> new MediaMetaDataNotFoundException("media does not exist with id ::" + id));
+        .orElseThrow(() -> new MediaMetaDataNotFoundException(id));
 
         current.setCreatorId(updateMediaMetaData.getCreatorId());
         current.setRoomInformation(updateMediaMetaData.getRoomInformation());

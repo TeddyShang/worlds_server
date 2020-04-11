@@ -1,4 +1,5 @@
 package worlds.server;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -6,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class BookingNotFoundAdvice {
+class UserPrivateProfileNotFoundAdvice {
 
   @ResponseBody
-  @ExceptionHandler(BookingNotFoundException.class)
+  @ExceptionHandler(UserPrivateProfileNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  String bookingNotFoundHandler(BookingNotFoundException ex) {
+  String userPrivateProfileNotFoundHandler(UserPrivateProfileNotFoundException ex) {
     return ex.getMessage();
   }
 }

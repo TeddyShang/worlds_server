@@ -1,5 +1,4 @@
 package worlds.server;
-
 import lombok.Data;
 
 @Data

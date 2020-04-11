@@ -12,15 +12,16 @@
   "userStatus": "PENDING",
   "userType": "REALTOR",
   "userState": "UNLOCKED",
-  "profileId": "5e827c61e14bf25a1405b98e",
+  "profileId": "5e909186ca7be04dec050a26",
+  "privateProfileId": "5e909186ca7be04dec050a27",
   "bookingIds": [],
-  "dateCreated": 1585609825471,
-  "lastLoggedIn": 1585609825471,
+  "dateCreated": 1586532742495,
+  "lastLoggedIn": 1586532742495,
   "realtorId": "184812",
   "email": "blackwidow@nyc.com",
   "_links": {
     "self": {
-      "href": "http://localhost:8080/users/5e827c61e14bf25a1405b98f"
+      "href": "http://localhost:8080/users/5e909186ca7be04dec050a28"
     },
     "users": {
       "href": "http://localhost:8080/users"
@@ -42,15 +43,16 @@
   "userStatus": "PENDING",
   "userType": "CREATOR",
   "userState": "UNLOCKED",
-  "profileId": "5e827c76e14bf25a1405b990",
+  "profileId": "5e9091a1ca7be04dec050a29",
+  "privateProfileId": "5e9091a1ca7be04dec050a2a",
   "bookingIds": [],
-  "dateCreated": 1585609846456,
-  "lastLoggedIn": 1585609846456,
+  "dateCreated": 1586532769106,
+  "lastLoggedIn": 1586532769106,
   "realtorId": "",
   "email": "mural@es.com",
   "_links": {
     "self": {
-      "href": "http://localhost:8080/users/5e827c76e14bf25a1405b991"
+      "href": "http://localhost:8080/users/5e9091a1ca7be04dec050a2b"
     },
     "users": {
       "href": "http://localhost:8080/users"
@@ -59,7 +61,7 @@
 }
 
   {
-    "realtorId": "5e827c61e14bf25a1405b98f",
+    "realtorId": "5e909186ca7be04dec050a28",
     "address": "1600 Pennsylvania Ave, Baltimore, MD, USA",
     "dateRequested": "2/12/2020",
     "locationCoordinates": "(1142431.4373195986,-4808227.662235494,4018407.8984806594)",
@@ -84,7 +86,7 @@
     
 }
   {
-    "realtorId": "5e827c61e14bf25a1405b98f",
+    "realtorId": "5e909186ca7be04dec050a28",
     "tags":["photos", "videos"],
     "address": "Empire State Building, Manhattan, New York, NY, USA",
     "dateRequested": "2/12/2020",
@@ -108,7 +110,7 @@
     ]
 }
 {
-    "realtorId": "5e827c61e14bf25a1405b98f",
+    "realtorId": "5e909186ca7be04dec050a28",
     "tags":["photos", "videos"],
 	"address": "Daytona 500 Club, Daytona Beach, FL, USA",
 	"dateRequested": "2/12/2020",
@@ -116,7 +118,7 @@
 	"rooms": [["Champions Club","3","false"], ["Checkered Flag","3","true"],["Winners Circle","1","false"]]
 }
   {
-    "realtorId": "5e827c61e14bf25a1405b98f",
+    "realtorId": "5e909186ca7be04dec050a28",
     "tags":["photos", "videos"],
 	"address": "Venice Beach, Los Angeles, CA, USA",
 	"dateRequested": "2/12/2020",
@@ -124,7 +126,7 @@
 	"rooms": [["Tiki Bar","3","false"], ["Muscle Beach","3","true"],["Pier","1","false"]]
 }
   {
-	    "realtorId": "5e827c61e14bf25a1405b98f",
+	    "realtorId": "5e909186ca7be04dec050a28",
     "tags":["photos", "videos"],
 	"address": "Mercedes-Benz Stadium, Atlanta, GA, USA",
 	"dateRequested": "2/12/2020",

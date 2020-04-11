@@ -1,7 +1,6 @@
 package worlds.server;
 
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,11 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
@@ -27,6 +23,10 @@ class UserProfileController{
         this.assembler = assembler;
     }
 
+    /**
+     * Gets all user profiles
+     * @return all user profiles in JSON format
+     */
     @GetMapping(value = "/userprofiles", produces = "application/json; charset=UTF-8")
     Resources<Resource<UserProfile>> all() {
         List<Resource<UserProfile>> userProfiles = repository.findAll().stream()
@@ -37,6 +37,11 @@ class UserProfileController{
             linkTo(methodOn(UserProfileController.class).all()).withSelfRel()); 
     }
 
+    /**
+     * Gets a specific user profile
+     * @param id of the user profile
+     * @return JSON user profile
+     */
     @GetMapping(value = "/userprofiles/{id}", produces = "application/json; charset=UTF-8")
     Resource<UserProfile> one(@PathVariable String id) {
         UserProfile userProfile = repository.findById(id)
@@ -44,11 +49,18 @@ class UserProfileController{
         return assembler.toResource(userProfile);
     }
 
+    /**
+     * Allows user profiles to be editted 
+     * @param userProfileInfo Incoming JSON object representing user profile
+     * @param id of the user profile
+     * @return 200 code with user profile as body
+     * @throws UserProfileNotFoundException
+     */
     @PutMapping("/userprofiles/{id}")
     ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfileInfo,
     @PathVariable final String id) throws UserProfileNotFoundException {
         UserProfile userProfile = repository.findById(id)
-        .orElseThrow(() -> new UserProfileNotFoundException("User profile does not exist with id ::" + id));
+        .orElseThrow(() -> new UserProfileNotFoundException(id));
 
         userProfile.setAboutMe(userProfileInfo.getAboutMe());
         userProfile.setUrlToProfilePicture(userProfileInfo.getUrlToProfilePicture());
