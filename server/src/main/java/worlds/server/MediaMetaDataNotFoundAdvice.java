@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 class MediaMetaDataNotFoundAdvice {
 
+  /**
+   * 
+   * @param ex Exception to be transformed
+   * @return Response with status code and exception message.
+   */
   @ResponseBody
   @ExceptionHandler(MediaMetaDataNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
