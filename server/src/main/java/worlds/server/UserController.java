@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import java.util.stream.Collectors;
@@ -199,7 +196,6 @@ class UserController {
     }
 
     /**
-     * TODO: new control flow, constructors
      * POST method
      * 
      * @param newUser user to be created
@@ -300,7 +296,6 @@ class UserController {
     }
 
     /**
-     * TODO: Exception Checking
      * 
      * @param login Login object, username and unhashed password of user
      * @return ProtectedUser as Json if accepted, Unauthorized otherwise
@@ -356,20 +351,34 @@ class UserController {
 
     /** 
     * PUT method
-    * @param userInfo user object created
+    * @param userInfo incoming user object
     * @param id id associated with a user
-    * @return saves modified properties of user into the database.
+    * @return saves modified properties of user into the database and returns object
     */
     @PutMapping("/users/{id}")
-    ResponseEntity<User> updateUser(@Valid @RequestBody User userInfo,
+    Resource<UserProtected> updateUser(@Valid @RequestBody User userInfo,
     @PathVariable final String id) throws UserNotFoundException {
         User user = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException(id));
 
-        BeanUtils.copyProperties(userInfo,user);
+        user.setFirstName(userInfo.getFirstName());
+        user.setLastName(userInfo.getLastName());
+        user.setUserStatus(userInfo.getUserStatus());
+        user.setUserType(userInfo.getUserType());
+        user.setUserState(userInfo.getUserState());
+        user.setRealtorId(userInfo.getRealtorId());
+        user.setEmail(userInfo.getEmail());
+        user.setFailedLogInAttempts(userInfo.getFailedLogInAttempts());
 
-        final User updatedUser= userRepository.save(user);
-        return ResponseEntity.ok(updatedUser);
+        
+
+
+        
+
+        User updatedUser= userRepository.save(user);
+        UserProtected userProtected = new UserProtected();
+        userProtected.convertFrom(updatedUser);
+        return userResourceAssembler.toResource(userProtected);
     }
 
     /**
