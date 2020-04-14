@@ -18,16 +18,16 @@
 * Latest version of Gradle (https://gradle.org/install/)
 ### Dependent Libraries
 * See build.gradle
-**  'org.springframework.boot' version ‘2.1.12.RELEASE'
-**  ‘io.spring.dependency-management' version '1.0.9.RELEASE'
-**  'org.springframework.boot:spring-boot-starter-data-mongodb'
-**  'org.springframework.boot:spring-boot-starter-data-rest'
-**  'org.springframework.boot:spring-boot-starter-hateoas'
-**  'org.springframework.boot:spring-boot-starter-web'
-**  'org.projectlombok:lombok'
-**  'org.jsoup:jsoup:1.13.1'
-**  'org.springframework.security' '3.1.0.RELEASE'
-**  'com.google.code.gson' '2.8.5'
+  * 'org.springframework.boot' version ‘2.1.12.RELEASE'
+  * ‘io.spring.dependency-management' version '1.0.9.RELEASE'
+  * 'org.springframework.boot:spring-boot-starter-data-mongodb'
+  * 'org.springframework.boot:spring-boot-starter-data-rest'
+  * 'org.springframework.boot:spring-boot-starter-hateoas'
+  * 'org.springframework.boot:spring-boot-starter-web'
+  * 'org.projectlombok:lombok'
+  * 'org.jsoup:jsoup:1.13.1'
+  * 'org.springframework.security' '3.1.0.RELEASE'
+  * 'com.google.code.gson' '2.8.5'
 ### Download instructions
 * Clone or download from this repository
 ### Build instructions
@@ -39,7 +39,7 @@
   5. Configure the cluster once it is set up by whitelisting certain IP addresses and creating a MongoDB User
   6. Select Java version 3.7 or later and save the connection string
   7. In application.properties, enter the following line:
-    * spring.data.mongodb.uri = <connectionString>
+    * spring.data.mongodb.uri = {connectionString}
 * To create  executable .jar file
   1. Navigate to worlds_server/server in terminal
   2. Enter “gradle clean”
@@ -66,4 +66,4 @@
 * Ensure all prerequisites are installed
 * On Windows make sure Gradle and Java are added to your environmental variables
   * Enter “gradle -version” and/or “java -version” in terminal to check
-*Ensure application.properties has the connection string with the MongoDB username and password added to the right place in the string
+* Ensure application.properties has the connection string with the MongoDB username and password added to the right place in the string
